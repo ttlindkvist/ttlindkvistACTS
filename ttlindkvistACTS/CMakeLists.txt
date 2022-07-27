@@ -2,6 +2,7 @@ add_library(
   ttlindkvistACTS SHARED
   src/ModifiedAMVFAlgorithm.cpp
   src/ModifiedIterativeVertexFinderAlgorithm.cpp
+  src/NTupleIterativeVertexFinderAlgorithm.cpp
   src/NTupleReaderOptions.cpp
   src/RootNTupleReader.cpp
 )

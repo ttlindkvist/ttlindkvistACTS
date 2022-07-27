@@ -55,6 +55,23 @@ ttlindkvist::RootNTupleReader::RootNTupleReader(
   m_inputChain->SetBranchAddress("track_qOverP",  &m_track_qOverP);
   m_inputChain->SetBranchAddress("track_t",       &m_track_t);
   m_inputChain->SetBranchAddress("track_z",       &m_track_z);
+  
+  // Covariance stuff
+  m_inputChain->SetBranchAddress("track_var_d0",            &m_track_var_d0);
+  m_inputChain->SetBranchAddress("track_var_z0",            &m_track_var_z0);
+  m_inputChain->SetBranchAddress("track_var_phi",           &m_track_var_phi);
+  m_inputChain->SetBranchAddress("track_var_theta",         &m_track_var_theta);
+  m_inputChain->SetBranchAddress("track_var_qOverP",        &m_track_var_qOverP);
+  m_inputChain->SetBranchAddress("track_cov_d0z0",          &m_track_cov_d0z0);
+  m_inputChain->SetBranchAddress("track_cov_d0phi",         &m_track_cov_d0phi);
+  m_inputChain->SetBranchAddress("track_cov_d0theta",       &m_track_cov_d0theta);
+  m_inputChain->SetBranchAddress("track_cov_d0qOverP",      &m_track_cov_d0qOverP);
+  m_inputChain->SetBranchAddress("track_cov_z0phi",         &m_track_cov_z0phi);
+  m_inputChain->SetBranchAddress("track_cov_z0theta",       &m_track_cov_z0theta);
+  m_inputChain->SetBranchAddress("track_cov_z0qOverP",      &m_track_cov_z0qOverP);
+  m_inputChain->SetBranchAddress("track_cov_phitheta",      &m_track_cov_phitheta);
+  m_inputChain->SetBranchAddress("track_cov_phiqOverP",     &m_track_cov_phiqOverP);
+  m_inputChain->SetBranchAddress("track_cov_tehtaqOverP",   &m_track_cov_tehtaqOverP);
 
   auto path = m_cfg.filePath;
 
@@ -85,21 +102,19 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     const ActsExamples::AlgorithmContext& context) {
   ACTS_DEBUG("Trying to read recorded particles.");
 
-/*
-  // read in the particle
+  //In Iterative algorithm:
+  // const auto& inputTrackParameters =
+  //     ctx.eventStore.get<TrackParametersContainer>(m_cfg.inputTrackParameters);
+  // const auto& inputTrackPointers =
+  //     makeTrackParametersPointerContainer(inputTrackParameters);
+  Acts::Vector3 pos(0, 0, 0);
+  std::shared_ptr<Acts::PerigeeSurface> surface = Acts::Surface::makeShared<Acts::PerigeeSurface>(pos);
+
+  // read in the track parameters
   if (m_inputChain != nullptr && context.eventNumber < m_events) {
     // lock the mutex
     std::lock_guard<std::mutex> lock(m_read_mutex);
     // now read
-
-    // The particle collection to be written
-    ActsExamples::SimParticleContainer particleContainer;
-
-    // Primary vertex collection
-    std::vector<uint32_t> priVtxCollection;
-    // Secondary vertex collection
-    std::vector<uint32_t> secVtxCollection;
-
     // Read the correct entry
     auto entry = context.eventNumber;
     if (not m_cfg.orderedEvents and entry < m_entryNumbers.size()) {
@@ -109,37 +124,41 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     ACTS_INFO("Reading event: " << context.eventNumber
                                 << " stored as entry: " << entry);
 
-    unsigned int nParticles = m_particleId->size();
-
-    for (unsigned int i = 0; i < nParticles; i++) {
-      ActsExamples::SimParticle p;
-
-      p.setParticleId((*m_particleId)[i]);
-      p.setPosition4((*m_vx)[i], (*m_vy)[i], (*m_vz)[i], (*m_vt)[i]);
-      p.setDirection((*m_px)[i], (*m_py)[i], (*m_pz)[i]);
-      p.setAbsoluteMomentum((*m_p)[i]);
-      p.setCharge((*m_q)[i]);
-
-      particleContainer.insert(particleContainer.end(), p);
-      priVtxCollection.push_back((*m_vertexPrimary)[i]);
-      secVtxCollection.push_back((*m_vertexSecondary)[i]);
+    
+    unsigned int nTracks = m_track_d0->size();
+    
+    ACTS_DEBUG("nTracks = " << nTracks);
+    
+    std::vector<Acts::BoundTrackParameters> trackContainer;
+    for(unsigned int i = 0; i< nTracks; i++){
+      using ParametersVector = Acts::BoundVector;
+      Acts::BoundVector params;
+       // NOTE the order of Loc to d0, z0 is unknown to me at this point
+      params[Acts::BoundIndices::eBoundLoc0]    = (*m_track_d0)[i];
+      params[Acts::BoundIndices::eBoundLoc1]    = (*m_track_z0)[i];
+      params[Acts::BoundIndices::eBoundPhi]     = (*m_track_phi)[i];
+      params[Acts::BoundIndices::eBoundTheta]   = (*m_track_theta)[i];
+      params[Acts::BoundIndices::eBoundQOverP]  = (*m_track_qOverP)[i];
+      params[Acts::BoundIndices::eBoundTime]    = (*m_track_t)[i];
+      
+      double q = 1;
+      //Construct and fill covariance matrix
+      Acts::BoundSymMatrix cov;
+      //Variances
+      cov[Acts::BoundIndices::eBoundLoc0][Acts::BoundIndices::eBoundLoc0] = (*m_track_var_d0)[i];
+      cov[Acts::BoundIndices::eBoundLoc1][Acts::BoundIndices::eBoundLoc1] = (*m_track_var_z0)[i];
+      cov[Acts::BoundIndices::eBoundPhi][Acts::BoundIndices::eBoundPhi] =   (*m_track_var_phi)[i];
+      cov[Acts::BoundIndices::eBoundTheta][Acts::BoundIndices::eBoundTheta] = (*m_track_var_theta)[i];
+      cov[Acts::BoundIndices::eBoundQOverP][Acts::BoundIndices::eBoundQOverP] = (*m_track_var_qOverP)[i];
+      
+      //TODO: Covariances
+      
+      
+      Acts::BoundTrackParameters tc(surface, params, q, cov);
+      trackContainer.push_back(tc);
     }
-
-    // Write the collections to the EventStore
-    context.eventStore.add(m_cfg.particleCollection,
-                           std::move(particleContainer));
-
-    if (not m_cfg.vertexPrimaryCollection.empty()) {
-      context.eventStore.add(m_cfg.vertexPrimaryCollection,
-                             std::move(priVtxCollection));
-    }
-
-    if (not m_cfg.vertexSecondaryCollection.empty()) {
-      context.eventStore.add(m_cfg.vertexSecondaryCollection,
-                             std::move(secVtxCollection));
-    }
+    context.eventStore.add(m_cfg.nTupleTrackParameters, std::move(trackContainer));
   }
-*/
 
   // Return success flag
   return ActsExamples::ProcessCode::SUCCESS;
@@ -153,6 +172,21 @@ ttlindkvist::RootNTupleReader::~RootNTupleReader() {
   delete m_track_qOverP;
   delete m_track_t;
   delete m_track_z;
+  delete m_track_var_d0;
+  delete m_track_var_z0;
+  delete m_track_var_phi;
+  delete m_track_var_theta;
+  delete m_track_var_qOverP;
+  delete m_track_cov_d0z0;
+  delete m_track_cov_d0phi;
+  delete m_track_cov_d0theta;
+  delete m_track_cov_d0qOverP;
+  delete m_track_cov_z0phi;
+  delete m_track_cov_z0theta;
+  delete m_track_cov_z0qOverP;
+  delete m_track_cov_phitheta;
+  delete m_track_cov_phiqOverP;
+  delete m_track_cov_tehtaqOverP;
 }
 
 

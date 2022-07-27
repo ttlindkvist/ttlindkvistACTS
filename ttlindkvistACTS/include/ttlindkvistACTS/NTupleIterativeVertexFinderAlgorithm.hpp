@@ -1,6 +1,6 @@
 // This file is part of the Acts project.
 //
-// Copyright (C) 2020 CERN for the benefit of the Acts project
+// Copyright (C) 2016-2021 CERN for the benefit of the Acts project
 //
 // This Source Code Form is subject to the terms of the Mozilla Public
 // License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,20 +16,25 @@
 
 namespace ttlindkvist {
 
-class TutorialVertexFinderAlgorithm final : public ActsExamples::BareAlgorithm {
+class NTupleIterativeVertexFinderAlgorithm final : public ActsExamples::BareAlgorithm {
  public:
   struct Config {
     /// Input track parameters collection
-    std::string inputTrackParameters;
+    std::string inputTrackParameters = "nTupleTrackParameters";
     /// Output proto vertex collection
     std::string outputProtoVertices;
+    /// Output vertex collection
+    std::string outputVertices = "vertices";
+    /// Output reconstruction time in ms
+    std::string outputTime = "time";
     /// The magnetic field
     std::shared_ptr<Acts::MagneticFieldProvider> bField;
   };
 
-  TutorialVertexFinderAlgorithm(const Config& cfg, Acts::Logging::Level lvl);
+  NTupleIterativeVertexFinderAlgorithm(const Config& config,
+                                 Acts::Logging::Level level);
 
-  /// Find vertices.
+  /// Find vertices using iterative vertex finder algorithm.
   ///
   /// @param ctx is the algorithm context with event information
   /// @return a process code indication success or failure

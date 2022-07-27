@@ -87,21 +87,21 @@ int main(int argc, char* argv[]) {
 
   // find vertices via AFVM method
   std::cout << "\nFind verteces\n";
-  TutorialVertexFinderAlgorithm::Config findVerticesAMVF;
+  ttlindkvist::TutorialVertexFinderAlgorithm::Config findVerticesAMVF;
   findVerticesAMVF.bField = magneticField;
   findVerticesAMVF.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
   findVerticesAMVF.outputProtoVertices = "protovertices";
   sequencer.addAlgorithm(
-      std::make_shared<TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
+      std::make_shared<ttlindkvist::TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
   // ACTS_DEBUG("Sequencer: vertex finding algorithm");
 
   // Find vertices using iterative method
-  IterativeVertexFinderAlgorithm::Config findVerticesIterative;
+  ttlindkvist::IterativeVertexFinderAlgorithm::Config findVerticesIterative;
   findVerticesIterative.bField = magneticField;
   findVerticesIterative.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
   findVerticesIterative.outputProtoVertices = "protovertices";
   sequencer.addAlgorithm(
-      std::make_shared<IterativeVertexFinderAlgorithm>(findVerticesIterative, logLevel));
+      std::make_shared<ttlindkvist::IterativeVertexFinderAlgorithm>(findVerticesIterative, logLevel));
 
   std::cout << "\nRun sequence\n";
   return sequencer.run();

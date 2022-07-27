@@ -6,7 +6,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#include "ActsExamples/Vertexing/TutorialVertexFinderAlgorithm.hpp"
+#include "ttlindkvistACTS/ModifiedAMVFAlgorithm.hpp"
 
 #include "Acts/Definitions/Units.hpp"
 #include "Acts/MagneticField/MagneticFieldContext.hpp"
@@ -36,7 +36,7 @@
 // #include <boost/algorithm/string.hpp>
 #include <fstream>
 
-ActsExamples::TutorialVertexFinderAlgorithm::TutorialVertexFinderAlgorithm(
+ttlindkvist::TutorialVertexFinderAlgorithm::TutorialVertexFinderAlgorithm(
     const Config& cfg, Acts::Logging::Level lvl)
     : ActsExamples::BareAlgorithm("TutorialVertexFinder", lvl), m_cfg(cfg) {
   if (m_cfg.inputTrackParameters.empty()) {
@@ -47,13 +47,13 @@ ActsExamples::TutorialVertexFinderAlgorithm::TutorialVertexFinderAlgorithm(
   }
 }
 
-ActsExamples::ProcessCode ActsExamples::TutorialVertexFinderAlgorithm::execute(
+ActsExamples::ProcessCode ttlindkvist::TutorialVertexFinderAlgorithm::execute(
     const ActsExamples::AlgorithmContext& ctx) const {
   // retrieve input tracks and convert into the expected format
   const auto& inputTrackParameters =
-      ctx.eventStore.get<TrackParametersContainer>(m_cfg.inputTrackParameters);
+      ctx.eventStore.get<ActsExamples::TrackParametersContainer>(m_cfg.inputTrackParameters);
   const auto& inputTrackPointers =
-      makeTrackParametersPointerContainer(inputTrackParameters);
+      ActsExamples::makeTrackParametersPointerContainer(inputTrackParameters);
   //* Do not change the code above this line *//
 
   //////////////////////////////////////////////////////////////////////////////

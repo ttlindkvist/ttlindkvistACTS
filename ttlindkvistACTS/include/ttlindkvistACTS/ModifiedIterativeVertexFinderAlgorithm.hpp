@@ -14,9 +14,9 @@
 
 #include <string>
 
-namespace ActsExamples {
+namespace ttlindkvist {
 
-class IterativeVertexFinderAlgorithm final : public BareAlgorithm {
+class IterativeVertexFinderAlgorithm final : public ActsExamples::BareAlgorithm {
  public:
   struct Config {
     /// Input track parameters collection
@@ -38,7 +38,7 @@ class IterativeVertexFinderAlgorithm final : public BareAlgorithm {
   ///
   /// @param ctx is the algorithm context with event information
   /// @return a process code indication success or failure
-  ProcessCode execute(const AlgorithmContext& ctx) const final;
+  ActsExamples::ProcessCode execute(const ActsExamples::AlgorithmContext& ctx) const final;
 
   /// Get readonly access to the config parameters
   const Config& config() const { return m_cfg; }

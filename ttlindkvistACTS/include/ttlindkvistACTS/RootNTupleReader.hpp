@@ -33,6 +33,7 @@ class RootNTupleReader : public ActsExamples::IReader {
     std::string filePath = "/workspaces/CERN/4DTracking/ntuples_condor/OutDir_1/hist-Rel21sample.root";                ///< The name of the input file
     /// Whether the events are ordered or not
     bool orderedEvents = true;
+    std::string nTupleTrackParameters = "nTupleTrackParameters";
   };
 
   /// Constructor
@@ -88,7 +89,22 @@ class RootNTupleReader : public ActsExamples::IReader {
   std::vector<float> *m_track_qOverP  = new std::vector<float>;
   std::vector<float> *m_track_t       = new std::vector<float>;
   std::vector<float> *m_track_z       = new std::vector<float>;
-
+  
+  std::vector<float> *m_track_var_d0 = new std::vector<float>;
+  std::vector<float> *m_track_var_z0 = new std::vector<float>;
+  std::vector<float> *m_track_var_phi = new std::vector<float>;
+  std::vector<float> *m_track_var_theta = new std::vector<float>;
+  std::vector<float> *m_track_var_qOverP = new std::vector<float>;
+  std::vector<float> *m_track_cov_d0z0 = new std::vector<float>;
+  std::vector<float> *m_track_cov_d0phi = new std::vector<float>;
+  std::vector<float> *m_track_cov_d0theta = new std::vector<float>;
+  std::vector<float> *m_track_cov_d0qOverP = new std::vector<float>;
+  std::vector<float> *m_track_cov_z0phi = new std::vector<float>;
+  std::vector<float> *m_track_cov_z0theta = new std::vector<float>;
+  std::vector<float> *m_track_cov_z0qOverP = new std::vector<float>;
+  std::vector<float> *m_track_cov_phitheta = new std::vector<float>;
+  std::vector<float> *m_track_cov_phiqOverP = new std::vector<float>;
+  std::vector<float> *m_track_cov_tehtaqOverP = new std::vector<float>;
 
   // std::vector<uint64_t>* m_particleId       = new std::vector<uint64_t>;
   // std::vector<int32_t>* m_particleType      = new std::vector<int32_t>;

@@ -6,7 +6,7 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-#include "ttlindkvistACTS/ModifiedIterativeVertexFinderAlgorithm.hpp"
+#include "ttlindkvistACTS/NTupleIterativeVertexFinderAlgorithm.hpp"
 
 #include "Acts/Definitions/Algebra.hpp"
 #include "Acts/Definitions/Units.hpp"
@@ -41,16 +41,10 @@
 // #include <boost/str.hpp>
 #include <fstream>
 
-ttlindkvist::IterativeVertexFinderAlgorithm::IterativeVertexFinderAlgorithm(
+ttlindkvist::NTupleIterativeVertexFinderAlgorithm::NTupleIterativeVertexFinderAlgorithm(
     const Config& config, Acts::Logging::Level level)
     : ActsExamples::BareAlgorithm("IterativeVertexFinder", level),
       m_cfg(config) {
-  if (m_cfg.inputTrackParameters.empty()) {
-    throw std::invalid_argument("Missing input track parameters collection");
-  }
-  if (m_cfg.outputProtoVertices.empty()) {
-    throw std::invalid_argument("Missing output proto vertices collection");
-  }
   if (m_cfg.outputVertices.empty()) {
     throw std::invalid_argument("Missing output vertices collection");
   }
@@ -59,8 +53,10 @@ ttlindkvist::IterativeVertexFinderAlgorithm::IterativeVertexFinderAlgorithm(
   }
 }
 
-ActsExamples::ProcessCode ttlindkvist::IterativeVertexFinderAlgorithm::execute(
+ActsExamples::ProcessCode ttlindkvist::NTupleIterativeVertexFinderAlgorithm::execute(
     const ActsExamples::AlgorithmContext& ctx) const {
+  ACTS_DEBUG("Iterative start");
+  
   // retrieve input tracks and convert into the expected format
   const auto& inputTrackParameters =
       ctx.eventStore.get<ActsExamples::TrackParametersContainer>(m_cfg.inputTrackParameters);
@@ -79,7 +75,6 @@ ActsExamples::ProcessCode ttlindkvist::IterativeVertexFinderAlgorithm::execute(
   using VertexFinderOptions =
       Acts::VertexingOptions<Acts::BoundTrackParameters>;
 
-  ACTS_DEBUG("Iterative start");
   // Set up EigenStepper
   Acts::EigenStepper<> stepper(m_cfg.bField);
 

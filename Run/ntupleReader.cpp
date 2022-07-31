@@ -95,7 +95,7 @@ int main(int argc, char* argv[]) {
   vtxResolutionConfig.recoVtxParameters = "IVF_vertices";
   
   sequencer.addAlgorithm(
-      std::make_shared<ttlindkvist::NTuplePrinting>(printingCfg, logLevel));
+      std::make_shared<ttlindkvist::VertexingResolutionAlgorithm>(vtxResolutionConfig, logLevel));
   
   std::cout << "\nRun sequencer\n";
   return sequencer.run();

@@ -127,10 +127,8 @@ ActsExamples::ProcessCode ttlindkvist::IterativeVertexFinderAlgorithm::execute(
     ACTS_INFO("Found vertex at " << vtx.fullPosition().transpose() << " with "
                                  << vtx.tracks().size() << " tracks.");
     //Writing to file
-    outputFile << vtx.fullPosition().transpose() << " " << vtx.tracks().size() << std::endl;
-    // for(const auto& track : vtx.tracks()){
-    //   track
-    // }
+    outputFile << vtx.fullPosition().transpose() << " " << vtx.tracks().size() << " "
+               << vtx.fitQuality().first << " " << vtx.fitQuality().second << std::endl;
   }
   outputFile.close();
 

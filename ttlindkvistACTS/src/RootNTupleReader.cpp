@@ -20,6 +20,10 @@
 #include <TFile.h>
 #include <TMath.h>
 
+//Debugging - For printing read parameters
+#include <boost/format.hpp>
+#include <fstream>
+
 /* TODO
 
 Load some data in - try to print it out
@@ -27,7 +31,6 @@ Load some data in - try to print it out
 Should load relevant EventTree<x> automatically from .root
 
 */
-
 
 ttlindkvist::RootNTupleReader::RootNTupleReader(
     const ttlindkvist::RootNTupleReader::Config& config,
@@ -72,6 +75,14 @@ ttlindkvist::RootNTupleReader::RootNTupleReader(
   m_inputChain->SetBranchAddress("track_cov_phitheta",      &m_track_cov_phitheta);
   m_inputChain->SetBranchAddress("track_cov_phiqOverP",     &m_track_cov_phiqOverP);
   m_inputChain->SetBranchAddress("track_cov_tehtaqOverP",   &m_track_cov_tehtaqOverP);
+  
+  // Truth vertex
+  m_inputChain->SetBranchAddress("truthvertex_x", &m_truthvertex_x); 
+  m_inputChain->SetBranchAddress("truthvertex_y", &m_truthvertex_y); 
+  m_inputChain->SetBranchAddress("truthvertex_z", &m_truthvertex_z); 
+  m_inputChain->SetBranchAddress("truthvertex_t", &m_truthvertex_t); 
+  
+  // m_inputChain->SetBranchAddress("truthvertex_tracks_idx",   &m_truthvertex_tracks_idx);
 
   auto path = m_cfg.filePath;
 
@@ -100,13 +111,8 @@ std::pair<size_t, size_t> ttlindkvist::RootNTupleReader::availableEvents()
 
 ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     const ActsExamples::AlgorithmContext& context) {
-  ACTS_DEBUG("Trying to read recorded particles.");
+  ACTS_DEBUG("Trying to read track parameters from ntuple.");
 
-  //In Iterative algorithm:
-  // const auto& inputTrackParameters =
-  //     ctx.eventStore.get<TrackParametersContainer>(m_cfg.inputTrackParameters);
-  // const auto& inputTrackPointers =
-  //     makeTrackParametersPointerContainer(inputTrackParameters);
   Acts::Vector3 pos(0, 0, 0);
   std::shared_ptr<Acts::PerigeeSurface> surface = Acts::Surface::makeShared<Acts::PerigeeSurface>(pos);
 
@@ -125,15 +131,21 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
                                 << " stored as entry: " << entry);
 
     
-    unsigned int nTracks = m_track_d0->size();
+    unsigned int nTracks    = m_track_d0->size();
+    unsigned int nTruthVtx  = m_truthvertex_z->size();
     
     ACTS_DEBUG("nTracks = " << nTracks);
+    ACTS_DEBUG("nTruthVtx = " << nTruthVtx);
+
+    
+      
     
     std::vector<Acts::BoundTrackParameters> trackContainer;
-    for(unsigned int i = 0; i< nTracks; i++){
+    for(unsigned int i = 0; i<nTracks; i++){
+      //Debugging check by printing read parameters to file - to compare later via external program
       using ParametersVector = Acts::BoundVector;
       Acts::BoundVector params;
-       // NOTE the order of Loc to d0, z0 is unknown to me at this point
+      
       params[Acts::BoundIndices::eBoundLoc0]    = (*m_track_d0)[i];
       params[Acts::BoundIndices::eBoundLoc1]    = (*m_track_z0)[i];
       params[Acts::BoundIndices::eBoundPhi]     = (*m_track_phi)[i];
@@ -145,19 +157,63 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
       //Construct and fill covariance matrix
       Acts::BoundSymMatrix cov;
       //Variances
-      cov[Acts::BoundIndices::eBoundLoc0][Acts::BoundIndices::eBoundLoc0] = (*m_track_var_d0)[i];
-      cov[Acts::BoundIndices::eBoundLoc1][Acts::BoundIndices::eBoundLoc1] = (*m_track_var_z0)[i];
-      cov[Acts::BoundIndices::eBoundPhi][Acts::BoundIndices::eBoundPhi] =   (*m_track_var_phi)[i];
-      cov[Acts::BoundIndices::eBoundTheta][Acts::BoundIndices::eBoundTheta] = (*m_track_var_theta)[i];
-      cov[Acts::BoundIndices::eBoundQOverP][Acts::BoundIndices::eBoundQOverP] = (*m_track_var_qOverP)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundLoc0) = (*m_track_var_d0)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundLoc1) = (*m_track_var_z0)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundPhi) =   (*m_track_var_phi)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundTheta) = (*m_track_var_theta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundQOverP) = (*m_track_var_qOverP)[i];
       
-      //TODO: Covariances
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_d0z0)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_d0phi)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundTheta) =   (*m_track_cov_d0theta)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_d0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_z0phi)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundTheta) = (*m_track_cov_z0theta)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_z0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundTheta) = (*m_track_cov_phitheta)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_phiqOverP)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_tehtaqOverP)[i];
       
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundLoc0) = (*m_track_cov_d0z0)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundLoc0) = (*m_track_cov_d0phi)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundLoc0) =   (*m_track_cov_d0theta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundLoc0) = (*m_track_cov_d0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_z0phi)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_z0theta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_z0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_phitheta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_phiqOverP)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundTheta) = (*m_track_cov_tehtaqOverP)[i];
       
+      //Try add time covariances
+      cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundTime)   = 1;
+      
+      cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundLoc0)   = 0;
+      cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundLoc1)   = 0;
+      cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundPhi)    = 0;
+      cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundTheta)  = 0;
+      cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundQOverP) = 0;
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundTime)   = 0;
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundTime)   = 0;
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundTime)    = 0;
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundTime)  = 0;
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundTime) = 0;
+
       Acts::BoundTrackParameters tc(surface, params, q, cov);
       trackContainer.push_back(tc);
     }
+    
+    std::vector<Acts::Vector4> truthVertexContainer;
+    for(unsigned int i = 0; i<nTruthVtx; i++){
+      Acts::Vector4 vtx((*m_truthvertex_x)[i],
+                        (*m_truthvertex_y)[i],
+                        (*m_truthvertex_z)[i],
+                        (*m_truthvertex_t)[i] );
+      truthVertexContainer.push_back(vtx);
+    }
+    
     context.eventStore.add(m_cfg.nTupleTrackParameters, std::move(trackContainer));
+    context.eventStore.add(m_cfg.nTupleTruthVtxParameters, std::move(truthVertexContainer));
   }
 
   // Return success flag
@@ -187,9 +243,20 @@ ttlindkvist::RootNTupleReader::~RootNTupleReader() {
   delete m_track_cov_phitheta;
   delete m_track_cov_phiqOverP;
   delete m_track_cov_tehtaqOverP;
+  delete m_truthvertex_tracks_idx;
+  
+  delete m_truthvertex_x;
+  delete m_truthvertex_y;
+  delete m_truthvertex_z;
+  delete m_truthvertex_t;
 }
 
-
+//For checking propper reading
+// std::ofstream outputFile(boost::str(boost::format("ntuple_check/event%1%.txt") % context.eventNumber));;
+  // if(context.eventNumber == 0){
+  //   outputFile << params.transpose() << std::endl;
+  // }
+// outputFile.close();
 
 // name                 | typename                 | interpretation                
 // ---------------------+--------------------------+-------------------------------

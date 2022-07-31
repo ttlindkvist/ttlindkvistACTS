@@ -4,7 +4,9 @@ add_library(
   src/ModifiedIterativeVertexFinderAlgorithm.cpp
   src/NTupleIterativeVertexFinderAlgorithm.cpp
   src/NTupleReaderOptions.cpp
+  src/NTuplePrinting.cpp
   src/RootNTupleReader.cpp
+  src/VertexingResolutionAlgorithm.cpp
 )
 target_include_directories(
   ttlindkvistACTS

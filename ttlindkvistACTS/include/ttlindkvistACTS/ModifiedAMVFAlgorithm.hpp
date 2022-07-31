@@ -23,6 +23,8 @@ class TutorialVertexFinderAlgorithm final : public ActsExamples::BareAlgorithm {
     std::string inputTrackParameters;
     /// Output proto vertex collection
     std::string outputProtoVertices;
+    /// Output proto vertex collection
+    std::string outputVertices;
     /// The magnetic field
     std::shared_ptr<Acts::MagneticFieldProvider> bField;
   };

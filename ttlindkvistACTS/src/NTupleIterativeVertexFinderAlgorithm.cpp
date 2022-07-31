@@ -36,11 +36,6 @@
 
 #include "VertexingHelpers.hpp"
 
-// Extra
-#include <boost/format.hpp>
-// #include <boost/str.hpp>
-#include <fstream>
-
 ttlindkvist::NTupleIterativeVertexFinderAlgorithm::NTupleIterativeVertexFinderAlgorithm(
     const Config& config, Acts::Logging::Level level)
     : ActsExamples::BareAlgorithm("IterativeVertexFinder", level),
@@ -55,7 +50,6 @@ ttlindkvist::NTupleIterativeVertexFinderAlgorithm::NTupleIterativeVertexFinderAl
 
 ActsExamples::ProcessCode ttlindkvist::NTupleIterativeVertexFinderAlgorithm::execute(
     const ActsExamples::AlgorithmContext& ctx) const {
-  ACTS_DEBUG("Iterative start");
   
   // retrieve input tracks and convert into the expected format
   const auto& inputTrackParameters =
@@ -113,21 +107,11 @@ ActsExamples::ProcessCode ttlindkvist::NTupleIterativeVertexFinderAlgorithm::exe
   }
   auto vertices = *result;
 
-
-  //Open event file -- assume it has been created by the AMVF
-  std::ofstream outputFile(boost::str(boost::format("output/event%1%_iterative.txt") % ctx.eventNumber));    
-  // show some debug output
   ACTS_INFO("Found " << vertices.size() << " vertices in event " << ctx.eventNumber);
   for (const auto& vtx : vertices) {
     ACTS_INFO("Found vertex at " << vtx.fullPosition().transpose() << " with "
-                                 << vtx.tracks().size() << " tracks.");
-    //Writing to file
-    outputFile << vtx.fullPosition().transpose() << " " << vtx.tracks().size() << std::endl;
-    // for(const auto& track : vtx.tracks()){
-    //   track
-    // }
+                                 << vtx.tracks().size() << " tracks. chi2 = " << vtx.fitQuality().first << " dof= " << vtx.fitQuality().second);
   }
-  outputFile.close();
 
   // store proto vertices extracted from the found vertices
   ctx.eventStore.add(m_cfg.outputProtoVertices,
@@ -141,6 +125,5 @@ ActsExamples::ProcessCode ttlindkvist::NTupleIterativeVertexFinderAlgorithm::exe
       std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
   // store reconstruction time
   ctx.eventStore.add(m_cfg.outputTime, std::move(timeMS));
-  ACTS_DEBUG("Iterative end");
   return ActsExamples::ProcessCode::SUCCESS;
 }

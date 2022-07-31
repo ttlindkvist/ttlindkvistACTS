@@ -34,6 +34,7 @@ class RootNTupleReader : public ActsExamples::IReader {
     /// Whether the events are ordered or not
     bool orderedEvents = true;
     std::string nTupleTrackParameters = "nTupleTrackParameters";
+    std::string nTupleTruthVtxParameters = "nTupleTruthVtxParameters";
   };
 
   /// Constructor
@@ -106,27 +107,12 @@ class RootNTupleReader : public ActsExamples::IReader {
   std::vector<float> *m_track_cov_phiqOverP = new std::vector<float>;
   std::vector<float> *m_track_cov_tehtaqOverP = new std::vector<float>;
 
-  // std::vector<uint64_t>* m_particleId       = new std::vector<uint64_t>;
-  // std::vector<int32_t>* m_particleType      = new std::vector<int32_t>;
-  // std::vector<uint32_t>* m_process          = new std::vector<uint32_t>;
-  // std::vector<float>* m_vx                  = new std::vector<float>;
-  // std::vector<float>* m_vy                  = new std::vector<float>;
-  // std::vector<float>* m_vz                  = new std::vector<float>;
-  // std::vector<float>* m_vt                  = new std::vector<float>;
-  // std::vector<float>* m_px                  = new std::vector<float>;
-  // std::vector<float>* m_py                  = new std::vector<float>;
-  // std::vector<float>* m_pz                  = new std::vector<float>;
-  // std::vector<float>* m_m                   = new std::vector<float>;
-  // std::vector<float>* m_q                   = new std::vector<float>;
-  // std::vector<float>* m_eta                 = new std::vector<float>;
-  // std::vector<float>* m_phi                 = new std::vector<float>;
-  // std::vector<float>* m_pt                  = new std::vector<float>;
-  // std::vector<float>* m_p                   = new std::vector<float>;
-  // std::vector<uint32_t>* m_vertexPrimary    = new std::vector<uint32_t>;
-  // std::vector<uint32_t>* m_vertexSecondary  = new std::vector<uint32_t>;
-  // std::vector<uint32_t>* m_particle         = new std::vector<uint32_t>;
-  // std::vector<uint32_t>* m_generation       = new std::vector<uint32_t>;
-  // std::vector<uint32_t>* m_subParticle      = new std::vector<uint32_t>;
+  std::vector<float> *m_truthvertex_x = new std::vector<float>;
+  std::vector<float> *m_truthvertex_y = new std::vector<float>;
+  std::vector<float> *m_truthvertex_z = new std::vector<float>;
+  std::vector<float> *m_truthvertex_t = new std::vector<float>;
+
+  std::vector<std::vector<int>> *m_truthvertex_tracks_idx = new std::vector<std::vector<int>>;
 };
 
 }  // namespace ttlindkvist

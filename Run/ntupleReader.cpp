@@ -12,9 +12,15 @@
 #include "ActsExamples/Framework/Sequencer.hpp"
 #include "ActsExamples/Vertexing/VertexingOptions.hpp"
 
+
 #include "ttlindkvistACTS/NTupleReaderOptions.hpp"
 #include "ttlindkvistACTS/RootNTupleReader.hpp"
+#include "ttlindkvistACTS/NTuplePrinting.hpp"
+
+#include "ttlindkvistACTS/ModifiedAMVFAlgorithm.hpp"
 #include "ttlindkvistACTS/NTupleIterativeVertexFinderAlgorithm.hpp"
+
+#include "ttlindkvistACTS/VertexingResolutionAlgorithm.hpp"
 
 #include <typeinfo>
 #include <memory>
@@ -23,7 +29,6 @@ using namespace Acts::UnitLiterals;
 using namespace ActsExamples;
 
 int main(int argc, char* argv[]) {
-  std::cout << "\nThe ntuple reader in src folder works!!\n";
   // setup and parse options
   auto desc = Options::makeDefaultOptions();
   Options::addSequencerOptions(desc);
@@ -48,14 +53,49 @@ int main(int argc, char* argv[]) {
 
   //Setup root file reader
   ttlindkvist::RootNTupleReader::Config ntupleReaderConf = ttlindkvist::Options::readNTupleReaderOptions(vars);
+  ntupleReaderConf.nTupleTruthVtxParameters = "nTupleTruthVtxParameters";
   sequencer.addReader(std::make_shared<ttlindkvist::RootNTupleReader>(ntupleReaderConf, logLevel));
+  
+  std::cout << "\nFind verteces\n";
+  
+  // ############################################
+  // #### Commented out because it runs slow ####
+  // ############################################
+  ttlindkvist::TutorialVertexFinderAlgorithm::Config findVerticesAMVF;
+  findVerticesAMVF.bField = magneticField;
+  findVerticesAMVF.inputTrackParameters = "nTupleTrackParameters";
+  findVerticesAMVF.outputProtoVertices = "protovertices";
+  findVerticesAMVF.outputVertices = "AMVF_vertices";
+  sequencer.addAlgorithm(
+      std::make_shared<ttlindkvist::TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
   
   // Find vertices using iterative method
   ttlindkvist::NTupleIterativeVertexFinderAlgorithm::Config findVerticesIterative;
   findVerticesIterative.bField = magneticField;
   findVerticesIterative.outputProtoVertices = "protovertices";
+  findVerticesIterative.outputVertices = "IVF_vertices";
   sequencer.addAlgorithm(
       std::make_shared<ttlindkvist::NTupleIterativeVertexFinderAlgorithm>(findVerticesIterative, logLevel));
+  
+  
+  // Debugging stuff
+  ttlindkvist::NTuplePrinting::Config printingCfg;
+  printingCfg.outputDir = "ntuple_check/";
+  printingCfg.ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
+  printingCfg.iterativeRecoVtxParameters = "IVF_vertices";
+  printingCfg.AMVFRecoVtxParameters = "AMVF_vertices";
+  
+  sequencer.addAlgorithm(
+      std::make_shared<ttlindkvist::NTuplePrinting>(printingCfg, logLevel));
+  
+  
+  ttlindkvist::VertexingResolutionAlgorithm::Config vtxResolutionConfig;
+  vtxResolutionConfig.outputDir = "ntuple_check/resolution";
+  vtxResolutionConfig.ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
+  vtxResolutionConfig.recoVtxParameters = "IVF_vertices";
+  
+  sequencer.addAlgorithm(
+      std::make_shared<ttlindkvist::NTuplePrinting>(printingCfg, logLevel));
   
   std::cout << "\nRun sequencer\n";
   return sequencer.run();

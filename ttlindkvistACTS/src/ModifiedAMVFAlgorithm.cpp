@@ -134,7 +134,8 @@ ActsExamples::ProcessCode ttlindkvist::TutorialVertexFinderAlgorithm::execute(
       outputFile << vtx.fullPosition().transpose() << " " << vtx.tracks().size() << std::endl;
     }
     outputFile.close();
-    
+    // store found vertices
+    ctx.eventStore.add(m_cfg.outputVertices, std::move(vertexCollection)); 
   } else {
     ACTS_ERROR("Error in vertex finder: " << res.error().message());
   }

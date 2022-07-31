@@ -21,6 +21,10 @@ class NTupleIterativeVertexFinderAlgorithm final : public ActsExamples::BareAlgo
   struct Config {
     /// Input track parameters collection
     std::string inputTrackParameters = "nTupleTrackParameters";
+    
+    //Truth vertex info
+    std::string inputTruthVtxParameters = "nTupleTruthVtxParameters";
+    
     /// Output proto vertex collection
     std::string outputProtoVertices;
     /// Output vertex collection

@@ -76,6 +76,7 @@ int main(int argc, char* argv[]) {
   //Setup root file reader
   ttlindkvist::RootNTupleReader::Config ntupleReaderConf = ttlindkvist::Options::readNTupleReaderOptions(vars);
   ntupleReaderConf.nTupleTruthVtxParameters = "nTupleTruthVtxParameters";
+  ntupleReaderConf.nTupleRecoVtxParameters = "nTupleRecoVtxParameters";
   sequencer.addReader(std::make_shared<ttlindkvist::RootNTupleReader>(ntupleReaderConf, logLevel));
  
   
@@ -103,7 +104,9 @@ int main(int argc, char* argv[]) {
   // Debugging stuff
   ttlindkvist::NTuplePrinting::Config printingCfg;
   printingCfg.outputDir = "ntuple_check/";
+  printingCfg.ntupleTrackParameters = "nTupleTrackParameters";
   printingCfg.ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
+  printingCfg.ntupleRecoVtxParameters = "nTupleRecoVtxParameters";
   printingCfg.iterativeRecoVtxParameters = "IVF_vertices";
   printingCfg.AMVFRecoVtxParameters = "AMVF_vertices";
   
@@ -111,13 +114,33 @@ int main(int argc, char* argv[]) {
       std::make_shared<ttlindkvist::NTuplePrinting>(printingCfg, logLevel));
   
   
-  ttlindkvist::VertexingResolutionAlgorithm::Config vtxResolutionConfig;
-  vtxResolutionConfig.outputDir = "ntuple_check/resolution";
-  vtxResolutionConfig.ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
-  vtxResolutionConfig.recoVtxParameters = "IVF_vertices";
+  ttlindkvist::VertexingResolutionAlgorithm::Config IVFVtxResolutionConfig;
+  IVFVtxResolutionConfig.outputDir = "ntuple_check/IVFresolution";
+  IVFVtxResolutionConfig.ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
+  IVFVtxResolutionConfig.recoVtxParameters = "IVF_vertices";
+  IVFVtxResolutionConfig.output = "IVFResolutionOutput";
   
   sequencer.addAlgorithm(
-      std::make_shared<ttlindkvist::VertexingResolutionAlgorithm>(vtxResolutionConfig, logLevel));
+      std::make_shared<ttlindkvist::VertexingResolutionAlgorithm>(IVFVtxResolutionConfig, logLevel));
+  
+  
+  ttlindkvist::VertexingResolutionAlgorithm::Config AMVFVtxResolutionConfig;
+  AMVFVtxResolutionConfig.outputDir = "ntuple_check/AMVFresolution";
+  AMVFVtxResolutionConfig.ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
+  AMVFVtxResolutionConfig.recoVtxParameters = "AMVF_vertices";
+  AMVFVtxResolutionConfig.output = "AMVFResolutionOutput";
+  
+  sequencer.addAlgorithm(
+      std::make_shared<ttlindkvist::VertexingResolutionAlgorithm>(AMVFVtxResolutionConfig, logLevel));
+  
+  ttlindkvist::VertexingResolutionAlgorithm::Config AMVFvsRecoVtxResolutionConfig;
+  AMVFvsRecoVtxResolutionConfig.outputDir = "ntuple_check/AMVFvsRecoResolution";
+  AMVFvsRecoVtxResolutionConfig.ntupleTruthVtxParameters = "nTupleRecoVtxParameters";
+  AMVFvsRecoVtxResolutionConfig.recoVtxParameters = "AMVF_vertices";
+  AMVFvsRecoVtxResolutionConfig.output = "AMVFvsRecoResolutionOutput";
+  
+  sequencer.addAlgorithm(
+      std::make_shared<ttlindkvist::VertexingResolutionAlgorithm>(AMVFvsRecoVtxResolutionConfig, logLevel));
   
   std::cout << "\nRun sequencer\n";
   return sequencer.run();

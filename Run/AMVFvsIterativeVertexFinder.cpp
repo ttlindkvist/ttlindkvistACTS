@@ -18,9 +18,9 @@
 #include "ActsExamples/TruthTracking/ParticleSmearing.hpp"
 #include "ActsExamples/Vertexing/VertexingOptions.hpp"
 
-//Replace these with modified
 #include "ttlindkvistACTS/ModifiedAMVFAlgorithm.hpp"
 #include "ttlindkvistACTS/ModifiedIterativeVertexFinderAlgorithm.hpp"
+#include "ttlindkvistACTS/AMVFvsIVFPrinter.hpp"
 
 #include <typeinfo>
 #include <memory>
@@ -29,81 +29,89 @@ using namespace Acts::UnitLiterals;
 using namespace ActsExamples;
 
 int main(int argc, char* argv[]) {
-  // setup and parse options
-  auto desc = Options::makeDefaultOptions();
-  Options::addSequencerOptions(desc);
-  Options::addRandomNumbersOptions(desc);
-  Options::addPythia8Options(desc);
-  ParticleSelector::addOptions(desc);
-  Options::addVertexingOptions(desc);
-  Options::addMagneticFieldOptions(desc);
-  Options::addOutputOptions(desc, OutputFormat::DirectoryOnly);
-  Options::addParticleSmearingOptions(desc);
-  auto vars = Options::parse(desc, argc, argv);
-  if (vars.empty()) {
-    return EXIT_FAILURE;
-  }
-  std::cout << "\nArguments loaded\n";
+    // setup and parse options
+    auto desc = Options::makeDefaultOptions();
+    Options::addSequencerOptions(desc);
+    Options::addRandomNumbersOptions(desc);
+    Options::addPythia8Options(desc);
+    ParticleSelector::addOptions(desc);
+    Options::addVertexingOptions(desc);
+    Options::addMagneticFieldOptions(desc);
+    Options::addOutputOptions(desc, OutputFormat::DirectoryOnly);
+    Options::addParticleSmearingOptions(desc);
+    auto vars = Options::parse(desc, argc, argv);
+    if (vars.empty()) {
+        return EXIT_FAILURE;
+    }
+    std::cout << "\nArguments loaded\n";
 
-  // basic setup
-  std::cout << "\nSequencer setup\n";
-  auto logLevel = Options::readLogLevel(vars);
-  auto rnd =
-      std::make_shared<RandomNumbers>(Options::readRandomNumbersConfig(vars));
-  Sequencer sequencer(Options::readSequencerConfig(vars));
+    // basic setup
+    std::cout << "\nSequencer setup\n";
+    auto logLevel = Options::readLogLevel(vars);
+    auto rnd =
+        std::make_shared<RandomNumbers>(Options::readRandomNumbersConfig(vars));
+    Sequencer sequencer(Options::readSequencerConfig(vars));
 
-  // Setup the magnetic field
-  std::cout << "\nSetup magnetic field\n";
-  auto magneticField = Options::readMagneticField(vars);
+    // Setup the magnetic field
+    std::cout << "\nSetup magnetic field\n";
+    auto magneticField = Options::readMagneticField(vars);
 
-  // setup event generator
-  std::cout << "\nSetup event generator\n";
-  EventGenerator::Config evgen = Options::readPythia8Options(vars, logLevel);
-  evgen.outputParticles = "particles_generated";
-  evgen.randomNumbers = rnd;
-  sequencer.addReader(std::make_shared<EventGenerator>(evgen, logLevel));
-  // ACTS_DEBUG("Sequencer: add event generation");
+    // setup event generator
+    std::cout << "\nSetup event generator\n";
+    EventGenerator::Config evgen = Options::readPythia8Options(vars, logLevel);
+    evgen.outputParticles = "particles_generated";
+    evgen.randomNumbers = rnd;
+    sequencer.addReader(std::make_shared<EventGenerator>(evgen, logLevel));
 
-  // pre-select particles
-  std::cout << "\nPreselect particles\n";
-  ParticleSelector::Config selectParticles = ParticleSelector::readConfig(vars);
-  std::cout << "\nselectParticles has been initialized\n";
-  selectParticles.inputParticles = evgen.outputParticles;
-  selectParticles.outputParticles = "particles_selected";
-  // smearing only works with charge particles for now
-  selectParticles.removeNeutral = true;
-  
-  selectParticles.absEtaMax = vars["vertexing-eta-max"].as<double>();
-  selectParticles.rhoMax = vars["vertexing-rho-max"].as<double>() * 1_mm;
-  selectParticles.ptMin = vars["vertexing-pt-min"].as<double>() * 1_MeV;
-  sequencer.addAlgorithm(
-      std::make_shared<ParticleSelector>(selectParticles, logLevel));
+    // pre-select particles
+    std::cout << "\nPreselect particles\n";
+    ParticleSelector::Config selectParticles = ParticleSelector::readConfig(vars);
+    std::cout << "\nselectParticles has been initialized\n";
+    selectParticles.inputParticles = evgen.outputParticles;
+    selectParticles.outputParticles = "particles_selected";
+    // smearing only works with charge particles for now
+    selectParticles.removeNeutral = true;
+    
+    selectParticles.absEtaMax = vars["vertexing-eta-max"].as<double>();
+    selectParticles.rhoMax = vars["vertexing-rho-max"].as<double>() * 1_mm;
+    selectParticles.ptMin = vars["vertexing-pt-min"].as<double>() * 1_MeV;
+    sequencer.addAlgorithm(
+        std::make_shared<ParticleSelector>(selectParticles, logLevel));
 
-  // Run the particle smearing
-  std::cout << "\nRun particle smearing\n";
-  auto particleSmearingCfg = setupParticleSmearing(
-      vars, sequencer, rnd, selectParticles.outputParticles);
+    // Run the particle smearing
+    std::cout << "\nRun particle smearing\n";
+    auto particleSmearingCfg = setupParticleSmearing(
+        vars, sequencer, rnd, selectParticles.outputParticles);
 
-  // find vertices via AFVM method
-  std::cout << "\nFind verteces\n";
-  ttlindkvist::TutorialVertexFinderAlgorithm::Config findVerticesAMVF;
-  findVerticesAMVF.bField = magneticField;
-  findVerticesAMVF.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
-  findVerticesAMVF.outputProtoVertices = "protovertices";
-  findVerticesAMVF.outputVertices = "AMVF_vertices";
-  sequencer.addAlgorithm(
-      std::make_shared<ttlindkvist::TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
-  // ACTS_DEBUG("Sequencer: vertex finding algorithm");
+    // find vertices via AFVM method
+    std::cout << "\nFind verteces\n";
+    ttlindkvist::TutorialVertexFinderAlgorithm::Config findVerticesAMVF;
+    findVerticesAMVF.bField = magneticField;
+    findVerticesAMVF.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
+    findVerticesAMVF.outputProtoVertices = "protovertices";
+    findVerticesAMVF.outputVertices = "AMVF_vertices";
+    sequencer.addAlgorithm(
+        std::make_shared<ttlindkvist::TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
 
-  // Find vertices using iterative method
-  ttlindkvist::IterativeVertexFinderAlgorithm::Config findVerticesIterative;
-  findVerticesIterative.bField = magneticField;
-  findVerticesIterative.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
-  findVerticesIterative.outputProtoVertices = "protovertices";
-  findVerticesIterative.outputVertices = "IVF_vertices";
-  sequencer.addAlgorithm(
+    // Find vertices using iterative method
+    ttlindkvist::IterativeVertexFinderAlgorithm::Config findVerticesIterative;
+    findVerticesIterative.bField = magneticField;
+    findVerticesIterative.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
+    findVerticesIterative.outputProtoVertices = "protovertices";
+    findVerticesIterative.outputVertices = "IVF_vertices";
+    sequencer.addAlgorithm(
       std::make_shared<ttlindkvist::IterativeVertexFinderAlgorithm>(findVerticesIterative, logLevel));
 
-  std::cout << "\nRun sequence\n";
-  return sequencer.run();
+    ttlindkvist::AMVFvsIVFPrinter::Config printingCfg;
+    printingCfg.outputDir = "AMVFvsIVF/";
+    printingCfg.generatedTrackParameters = particleSmearingCfg.outputTrackParameters;
+    printingCfg.iterativeRecoVtxParameters = "IVF_vertices";
+    printingCfg.AMVFRecoVtxParameters = "AMVF_vertices";
+    
+    sequencer.addAlgorithm(
+        std::make_shared<ttlindkvist::AMVFvsIVFPrinter>(printingCfg, logLevel));
+ 
+
+    std::cout << "\nRun sequence\n";
+    return sequencer.run();
 }

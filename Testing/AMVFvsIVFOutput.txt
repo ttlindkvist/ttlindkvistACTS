@@ -1,0 +1,436 @@
+
+
+======================= DEPRECATION NOTICE ========================
+The examples executables is deprecated. They will be removed in a
+future version.
+Consider using the python bindings for the example algorithms: 
+https://acts.readthedocs.io/en/latest/examples/python_bindings.html
+===================================================================
+
+
+
+Arguments loaded
+
+Sequencer setup
+
+Setup magnetic field
+12:21:43    MagneticFiel   INFO      Use no magnetic field
+
+Setup event generator
+ PYTHIA Warning in PhaseSpace2to2tauyz::trialKin: maximum for cross section violated  
+ PYTHIA Warning in MultipartonInteractions::init: maximum increased by factor 4.172
+12:22:04    Sequencer      INFO      Added reader 'EventGenerator'
+
+Preselect particles
+
+selectParticles has been initialized
+12:22:04    ParticleSele   DEBUG     selection particle rho [0,4)
+12:22:04    ParticleSele   DEBUG     selection particle |z| [0,inf)
+12:22:04    ParticleSele   DEBUG     selection particle time [-inf,inf)
+12:22:04    ParticleSele   DEBUG     selection particle phi [-inf,inf)
+12:22:04    ParticleSele   DEBUG     selection particle eta [-inf,inf)
+12:22:04    ParticleSele   DEBUG     selection particle |eta| [0,2.5)
+12:22:04    ParticleSele   DEBUG     selection particle pt [0.5,inf)
+12:22:04    ParticleSele   DEBUG     remove charged particles 0
+12:22:04    ParticleSele   DEBUG     remove neutral particles 1
+12:22:04    Sequencer      INFO      Added algorithm 'ParticleSelector'
+
+Run particle smearing
+12:22:04    Sequencer      INFO      Added algorithm 'ParticleSmearing'
+
+Find verteces
+12:22:04    Sequencer      INFO      Added algorithm 'TutorialVertexFinder'
+12:22:04    Sequencer      INFO      Added algorithm 'IterativeVertexFinder'
+12:22:04    Sequencer      INFO      Added algorithm 'AMVFvsIVFPrinter'
+
+Run sequence
+12:22:04    Sequencer      INFO      Processing events [0, 10)
+12:22:04    Sequencer      INFO      Starting event loop with -1 threads
+12:22:04    Sequencer      INFO        0 services
+12:22:04    Sequencer      INFO        0 context decorators
+12:22:04    Sequencer      INFO        1 readers
+12:22:04    Sequencer      INFO        5 algorithms
+12:22:04    Sequencer      INFO        0 writers
+ PYTHIA Warning in SimpleSpaceShower::pT2nextQCD: weight above unity  
+ PYTHIA Error in StringFragmentation::fragment: stuck in joining  
+ PYTHIA Error in Pythia::next: hadronLevel failed; try again  
+12:22:09    EventGenerat   DEBUG     event=0 n_primary_vertices=188 n_particles=29505
+12:22:09    ParticleSele   DEBUG     event 0 selected 1984 from 29505 particles
+12:22:09    TutorialVert   DEBUG     AMVF start
+12:22:09    EventGenerat   DEBUG     event=9 n_primary_vertices=178 n_particles=30934
+12:22:09    ParticleSele   DEBUG     event 9 selected 2210 from 30934 particles
+12:22:09    TutorialVert   DEBUG     AMVF start
+12:22:09    EventGenerat   DEBUG     event=6 n_primary_vertices=178 n_particles=28869
+12:22:09    ParticleSele   DEBUG     event 6 selected 2065 from 28869 particles
+12:22:09    TutorialVert   DEBUG     AMVF start
+ PYTHIA Warning in StringFragmentation::fragmentToJunction: bad convergence junction rest frame  
+12:22:10    EventGenerat   DEBUG     event=7 n_primary_vertices=209 n_particles=31567
+12:22:10    ParticleSele   DEBUG     event 7 selected 2237 from 31567 particles
+12:22:10    TutorialVert   DEBUG     AMVF start
+12:22:10    EventGenerat   DEBUG     event=8 n_primary_vertices=223 n_particles=31160
+12:22:10    EventGenerat   DEBUG     event=5 n_primary_vertices=202 n_particles=34693
+12:22:10    ParticleSele   DEBUG     event 5 selected 2555 from 34693 particles
+12:22:10    ParticleSele   DEBUG     event 8 selected 2216 from 31160 particles
+12:22:10    TutorialVert   DEBUG     AMVF start
+12:22:10    TutorialVert   DEBUG     AMVF start
+12:22:12    TutorialVert   INFO      Found 1 vertices in event 7
+12:22:12    TutorialVert   INFO      	1. vertex at (0,0,-0.00143628) with 12 tracks.
+12:22:12    TutorialVert   DEBUG     AMVF end
+12:22:12    IterativeVer   DEBUG     Iterative start
+12:22:13    IterativeVer   INFO      Found 29 vertices in event 7
+12:22:13    IterativeVer   INFO      Found vertex at -0.0265109 -0.0310628    32.4592          0 with 105 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0309947 0.0517537  -19.8039         0 with 118 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0215487 -0.130506  -47.6124         0 with 63 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.00255931  0.0807736    5.19969          0 with 87 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0487187 -0.0856477   -35.5745          0 with 77 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0865382  0.0827659    22.4151          0 with 64 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0952482  0.0225119   -33.4188          0 with 53 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0162658  0.0190669   -52.9467          0 with 82 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at   0.083962 0.00726611    7.87555          0 with 61 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at  0.0688528 -0.0704637    29.2897          0 with 38 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at  0.0400572 -0.0717083    -70.269          0 with 56 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0213675 -0.0706047   -23.9645          0 with 54 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0424795 0.0332164  -30.1073         0 with 53 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0644997 -0.111693   10.6276         0 with 30 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0582928  0.0090694   -1.60549          0 with 33 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at  0.0221188 -0.0341267   -44.3727          0 with 51 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0487565 0.0158858   25.1164         0 with 26 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0743759 -0.100209   45.3836         0 with 44 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at  0.0422092 -0.0218213    16.3409          0 with 42 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0465259  0.0251103   -57.2164          0 with 23 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0159403  0.0263254    83.0415          0 with 67 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0215339  0.0499327   -12.6504          0 with 33 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0481328   0.120011   -65.6868          0 with 44 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.00908852 -0.0688524       35.9          0 with 26 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at -0.0312111 -0.0276766    22.6481          0 with 8 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at  -0.0109735 -0.00451142     27.3818           0 with 20 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0280073 0.0197734  -59.5586         0 with 22 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at 0.0324987 0.0473484  -46.4964         0 with 18 tracks.
+12:22:13    IterativeVer   INFO      Found vertex at  0.273875 -0.191245  -20.9031         0 with 19 tracks.
+12:22:13    IterativeVer   DEBUG     Iterative end
+12:22:13    Sequencer      INFO      finished event 7
+12:22:14    EventGenerat   DEBUG     event=2 n_primary_vertices=182 n_particles=30032
+12:22:14    ParticleSele   DEBUG     event 2 selected 2309 from 30032 particles
+12:22:14    TutorialVert   DEBUG     AMVF start
+12:22:20    TutorialVert   INFO      Found 1 vertices in event 0
+12:22:20    TutorialVert   INFO      	1. vertex at (0.0184869,0.00576848,0.152365) with 19 tracks.
+12:22:20    TutorialVert   DEBUG     AMVF end
+12:22:20    IterativeVer   DEBUG     Iterative start
+12:22:21    IterativeVer   INFO      Found 17 vertices in event 0
+12:22:21    IterativeVer   INFO      Found vertex at 0.0697048  0.029188  -55.8211         0 with 103 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at  0.0670348 -0.0614302    4.82911          0 with 104 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at  0.0651879 -0.0333902    35.9815          0 with 78 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at   0.116822 -0.0386808    1.28629          0 with 43 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at   0.04027 0.0801223  -49.1484         0 with 52 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at   0.100108 0.00478831     11.865          0 with 47 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at  0.0169967 0.00160641     54.346          0 with 51 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at 0.00403578 -0.0445807   -66.9298          0 with 45 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at   0.0111019 -0.00876889     50.4544           0 with 47 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at -0.0664838  0.0113892    -44.467          0 with 62 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at -0.0454106  0.0442771   -1.89346          0 with 36 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at -0.0626806 -0.0770586   -8.68138          0 with 31 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at -0.0100329  0.0567321    39.4978          0 with 26 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at -0.0219635  -0.051786    44.5353          0 with 49 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at 0.0290497 0.0845989  -57.5857         0 with 29 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at   0.168035 -0.0979818   -80.4986          0 with 32 tracks.
+12:22:21    IterativeVer   INFO      Found vertex at 0.0593721 -0.112822  -5.18733         0 with 23 tracks.
+12:22:21    IterativeVer   DEBUG     Iterative end
+12:22:21    Sequencer      INFO      finished event 0
+12:22:22    EventGenerat   DEBUG     event=1 n_primary_vertices=202 n_particles=33042
+12:22:22    ParticleSele   DEBUG     event 1 selected 2440 from 33042 particles
+12:22:22    TutorialVert   DEBUG     AMVF start
+12:22:23    TutorialVert   INFO      Found 1 vertices in event 6
+12:22:23    TutorialVert   INFO      	1. vertex at (0.0671254,0.00433064,0.0670097) with 3 tracks.
+12:22:23    TutorialVert   DEBUG     AMVF end
+12:22:23    IterativeVer   DEBUG     Iterative start
+12:22:23    IterativeVer   INFO      Found 30 vertices in event 6
+12:22:23    IterativeVer   INFO      Found vertex at -0.0682877 0.00963651   -25.9571          0 with 101 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at 0.00117123  0.0221736   -31.7377          0 with 91 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at  0.0116749 -0.0143456    18.7294          0 with 87 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at  0.101094 0.0485411   15.8371         0 with 99 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0107094 -0.0131261    35.5688          0 with 64 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at  -0.002714 -0.0322418   -47.3411          0 with 79 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0334979  0.0017603   -14.5824          0 with 73 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.00186355   0.0499858     41.1077           0 with 69 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at   0.0865632 -0.00926253    -27.1323           0 with 52 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0238737  0.0658953    45.1085          0 with 41 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at 0.0416566  0.035011  -42.8749         0 with 40 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at 0.0122644 0.0595611   61.9014         0 with 43 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.00276126   0.0194485    -4.52636           0 with 52 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.00434067 -0.00259371     11.4535           0 with 54 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at 0.0611117 0.0624582  -28.3674         0 with 28 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at 0.0383483  0.045263   37.6927         0 with 54 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at  0.0245832 0.00478648    70.4713          0 with 55 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0269435 -0.0390495   -46.4811          0 with 31 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at   0.0269237 -0.00478026     39.7753           0 with 35 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0397588 -0.0212006   -17.5233          0 with 24 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0573965 -0.0917621   -37.8567          0 with 31 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0262018  0.0817903    51.3393          0 with 26 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0306473  0.0819799   -7.33952          0 with 18 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.140993  0.103383  -23.7761         0 with 21 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0830203  -0.112142   -33.5416          0 with 29 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at  0.0840717 -0.0756568    17.5014          0 with 38 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at   0.0190861 -0.00819483     58.8833           0 with 26 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at   0.019552 -0.0233719    86.4379          0 with 38 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at  -0.069353 -0.0894324   -56.1805          0 with 33 tracks.
+12:22:23    IterativeVer   INFO      Found vertex at -0.0434813  -0.045275    -13.754          0 with 12 tracks.
+12:22:23    IterativeVer   DEBUG     Iterative end
+12:22:23    Sequencer      INFO      finished event 6
+12:22:24    TutorialVert   INFO      Found 9 vertices in event 9
+12:22:24    TutorialVert   INFO      	1. vertex at (-0.0233612,0.021284,1.44616) with 6 tracks.
+12:22:24    TutorialVert   INFO      	2. vertex at (0.00619375,0.0142524,3.51179) with 51 tracks.
+12:22:24    TutorialVert   INFO      	3. vertex at (-0.0687811,0.000300922,-4.43372) with 7 tracks.
+12:22:24    TutorialVert   INFO      	4. vertex at (-0.0639367,0.0209105,-4.57057) with 16 tracks.
+12:22:24    TutorialVert   INFO      	5. vertex at (-0.0661854,0.0108282,6.98629) with 21 tracks.
+12:22:24    TutorialVert   INFO      	6. vertex at (-0.0728922,-0.00427777,-8.03129) with 15 tracks.
+12:22:24    TutorialVert   INFO      	7. vertex at (0.00107814,-0.00298304,8.06851) with 89 tracks.
+12:22:24    TutorialVert   INFO      	8. vertex at (-0.013103,-0.0438276,-8.25789) with 47 tracks.
+12:22:24    TutorialVert   INFO      	9. vertex at (0.0336461,-0.00812265,8.11868) with 90 tracks.
+12:22:24    TutorialVert   DEBUG     AMVF end
+12:22:24    IterativeVer   DEBUG     Iterative start
+12:22:24    EventGenerat   DEBUG     event=3 n_primary_vertices=179 n_particles=26080
+12:22:24    ParticleSele   DEBUG     event 3 selected 1822 from 26080 particles
+12:22:24    TutorialVert   DEBUG     AMVF start
+12:22:24    IterativeVer   INFO      Found 17 vertices in event 9
+12:22:24    IterativeVer   INFO      Found vertex at -0.0576009  0.0430447   -11.9231          0 with 123 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0176829  0.0624504    8.26876          0 with 90 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at 0.0434529 0.0178463  -23.3646         0 with 67 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0569081  0.0202203    31.7775          0 with 81 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at    0.031055 -0.00440091     52.8743           0 with 69 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at 0.0908965  0.125668  -24.8347         0 with 38 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0292321  0.0250085    -15.434          0 with 64 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0307207 -0.0917967    12.0379          0 with 72 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at  -0.0343356 -0.00288759    -34.5177           0 with 65 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at 0.0733715 0.0502746   49.7179         0 with 72 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at 0.00490853 0.00790631    3.51224          0 with 46 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0572993 -0.0148048    -50.505          0 with 52 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0103394 -0.0399165    58.1895          0 with 72 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.0453895  0.0021147   -8.26074          0 with 52 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.00344176    0.144953     23.4747           0 with 51 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at -0.00284154  0.00851759     -91.093           0 with 62 tracks.
+12:22:24    IterativeVer   INFO      Found vertex at   0.107552 -0.0768922   -20.6034          0 with 32 tracks.
+12:22:24    IterativeVer   DEBUG     Iterative end
+12:22:24    Sequencer      INFO      finished event 9
+12:22:25    EventGenerat   DEBUG     event=4 n_primary_vertices=209 n_particles=29918
+12:22:25    ParticleSele   DEBUG     event 4 selected 2029 from 29918 particles
+12:22:25    TutorialVert   DEBUG     AMVF start
+12:22:25    TutorialVert   INFO      Found 1 vertices in event 8
+12:22:25    TutorialVert   INFO      	1. vertex at (-0.0161241,0.0136403,-0.152209) with 39 tracks.
+12:22:25    TutorialVert   DEBUG     AMVF end
+12:22:25    IterativeVer   DEBUG     Iterative start
+12:22:26    IterativeVer   INFO      Found 23 vertices in event 8
+12:22:26    IterativeVer   INFO      Found vertex at -0.0385351 -0.0195251   -48.5661          0 with 126 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at 0.00352115 -0.0164553   -41.3494          0 with 93 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at   0.111661 -0.0660993   -5.09141          0 with 72 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at  0.0957032 -0.0574738  -0.154738          0 with 72 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0431311   -0.12152   -51.2615          0 with 61 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0395199 -0.0307472   -32.3849          0 with 39 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.106392  0.107921   3.30841         0 with 48 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at 0.0200096 0.0048296  -8.44716         0 with 52 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0112024  0.0096637    91.1589          0 with 62 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at  0.112448 0.0167789   79.2804         0 with 38 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.159636 0.0967285   11.0586         0 with 32 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0489867 -0.0131963   -43.9916          0 with 72 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.117906  0.133711   99.7505         0 with 44 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at  -0.0183546 -0.00392509     48.9611           0 with 56 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0247265  0.0186804   -56.4825          0 with 63 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at  0.0419856 -0.0802908   -6.98948          0 with 45 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at 0.0119383 0.0304515   85.5914         0 with 40 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0261246 0.00995225    38.7679          0 with 38 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.105162  0.156716  -29.9288         0 with 55 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at 0.00320911  0.0795935     102.41          0 with 29 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at -0.0267965 -0.0397904   -70.0194          0 with 52 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at 0.0733005 0.0208698   15.5405         0 with 20 tracks.
+12:22:26    IterativeVer   INFO      Found vertex at 0.0254485 -0.029711   5.08011         0 with 20 tracks.
+12:22:26    IterativeVer   DEBUG     Iterative end
+12:22:26    Sequencer      INFO      finished event 8
+12:22:29    TutorialVert   INFO      Found 0 vertices in event 5
+12:22:29    TutorialVert   DEBUG     AMVF end
+12:22:29    IterativeVer   DEBUG     Iterative start
+12:22:30    IterativeVer   INFO      Found 36 vertices in event 5
+12:22:30    IterativeVer   INFO      Found vertex at -0.0231445 -0.0660403    14.3217          0 with 100 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0113985 -0.0518525   -37.1179          0 with 63 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.0595686 0.0242741   17.9393         0 with 86 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.00967641   0.0161299    -1.54732           0 with 73 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.00752779 -0.0368172   -40.8198          0 with 47 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.0236285 0.0189064   25.2423         0 with 110 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.165873 0.0240551  -34.3355         0 with 58 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.0827904 0.0084015   40.1737         0 with 100 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0242286   0.143181   -9.35604          0 with 75 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.100392 0.0719225   56.6715         0 with 76 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.0678998 -0.037733  -46.9392         0 with 68 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0619287 -0.0601661   -25.7772          0 with 63 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0113113 -0.0355262    5.02705          0 with 69 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.0954621 0.0505134   59.4803         0 with 61 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0233447  0.0720614   -18.9475          0 with 34 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.0479308 -0.154259  -8.24226         0 with 44 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at   0.108089 -0.0452047     20.267          0 with 55 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0198968 -0.0230221    41.5144          0 with 66 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0136854 -0.0784109    -47.678          0 with 33 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.00128363   0.121647   -38.2501          0 with 32 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at 0.00562504 -0.0157838   -114.132          0 with 81 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0761762 -0.0171125    66.0465          0 with 51 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0129174 -0.0157332   -17.2384          0 with 32 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at   0.070843 -0.0210514   -35.1213          0 with 25 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.00479774 -0.00574784    -65.8835           0 with 55 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  -0.119207 0.00658422    57.6581          0 with 24 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at   0.0359928 -0.00325433    -27.7497           0 with 30 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  -0.100153 -0.0100511    30.9192          0 with 25 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0130671 -0.0206862     17.376          0 with 20 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0218248 0.00780609     8.4324          0 with 24 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  0.0715125 -0.0654837    90.1589          0 with 43 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at  -0.163376 -0.0625752   -21.2627          0 with 18 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0728315  0.0757177   -45.3427          0 with 26 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.00811121  -0.0198038     74.7503           0 with 28 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0588219 -0.0378583    25.7108          0 with 14 tracks.
+12:22:30    IterativeVer   INFO      Found vertex at -0.0230914 0.00332975   -111.086          0 with 34 tracks.
+12:22:30    IterativeVer   DEBUG     Iterative end
+12:22:30    Sequencer      INFO      finished event 5
+12:22:31    TutorialVert   INFO      Found 1 vertices in event 2
+12:22:31    TutorialVert   INFO      	1. vertex at (-0.016737,-0.0493153,-0.199517) with 16 tracks.
+12:22:31    TutorialVert   DEBUG     AMVF end
+12:22:31    IterativeVer   DEBUG     Iterative start
+12:22:31    IterativeVer   INFO      Found 29 vertices in event 2
+12:22:31    IterativeVer   INFO      Found vertex at 0.00968121   0.031497    27.3022          0 with 94 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  0.122378 0.0682075   -21.063         0 with 108 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at 0.0506977 0.0239677  -51.9967         0 with 74 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0569858 0.00977893    22.8678          0 with 96 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0446961  0.0179124   -75.2749          0 with 78 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0756433 -0.0425618   -18.6715          0 with 71 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  -0.040921 -0.0232205  -0.102683          0 with 43 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at    0.057455 -0.00177147     10.2179           0 with 45 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0821191  0.0322798   -55.0771          0 with 57 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at 0.0912096 0.0306675  -23.3186         0 with 53 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at   0.194365 -0.0220782    19.9792          0 with 56 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0997908 0.00480547   -6.61021          0 with 46 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.00788531   0.0374221     -47.777           0 with 61 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at 0.00799368 -0.0107915    79.7953          0 with 59 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  0.0492465 -0.0718067    29.9597          0 with 70 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0308288  0.0153966   -27.9702          0 with 36 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at     0.0209 -0.0513409   -66.7414          0 with 39 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0452054  0.0304273   -73.8333          0 with 36 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  0.0193704 0.00531346    49.1096          0 with 48 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.00630109   0.0166205    -30.7896           0 with 22 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at 0.0582377 0.0806832   2.20044         0 with 19 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at 0.158183 0.122132 -8.66334        0 with 24 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0776549  0.0482717   -40.1445          0 with 46 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  0.0514334 -0.0129973     85.654          0 with 74 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  0.0196746 0.00677913    6.75661          0 with 27 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at  0.0078845 -0.0295445    17.8607          0 with 30 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at 0.0138384 0.0163529   65.1372         0 with 59 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.213592 -0.054172  -53.7391         0 with 27 tracks.
+12:22:31    IterativeVer   INFO      Found vertex at -0.0654137  0.0808732    -22.303          0 with 28 tracks.
+12:22:31    IterativeVer   DEBUG     Iterative end
+12:22:31    Sequencer      INFO      finished event 2
+12:22:33    TutorialVert   INFO      Found 1 vertices in event 3
+12:22:33    TutorialVert   INFO      	1. vertex at (-0.00636743,0.0822975,0.134013) with 2 tracks.
+12:22:33    TutorialVert   DEBUG     AMVF end
+12:22:33    IterativeVer   DEBUG     Iterative start
+12:22:34    IterativeVer   INFO      Found 16 vertices in event 3
+12:22:34    IterativeVer   INFO      Found vertex at 0.0308113 0.0207057   57.0953         0 with 83 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at -0.0593113  0.0570786    2.87599          0 with 53 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at -0.0141553  0.0304171    14.4137          0 with 84 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at  -0.0416704 -0.00705417     42.7672           0 with 82 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at  0.0570936 -0.0638684    65.0893          0 with 71 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at -0.0877266 -0.0213142   -8.55929          0 with 67 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at 0.0356864 -0.101949   28.6252         0 with 58 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at 0.0114524 0.0292738   -13.154         0 with 44 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at  0.0105748 -0.0720393    3.92205          0 with 58 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at  0.0373825 -0.0326111    46.3668          0 with 68 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at -0.0318894  0.0489904   -38.3138          0 with 57 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at 0.0315766 -0.124818  -25.2195         0 with 36 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at  0.0129285 -0.0143772    21.5293          0 with 41 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at 0.0466706  0.159061   1.84953         0 with 18 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at  0.023867 0.0319252  -22.5876         0 with 28 tracks.
+12:22:34    IterativeVer   INFO      Found vertex at 0.0353104  0.101719   37.4134         0 with 27 tracks.
+12:22:34    IterativeVer   DEBUG     Iterative end
+12:22:34    Sequencer      INFO      finished event 3
+12:22:36    TutorialVert   INFO      Found 7 vertices in event 4
+12:22:36    TutorialVert   INFO      	1. vertex at (0.0898513,-0.0618161,-0.599651) with 4 tracks.
+12:22:36    TutorialVert   INFO      	2. vertex at (-0.0442931,-0.0343302,1.02294) with 17 tracks.
+12:22:36    TutorialVert   INFO      	3. vertex at (0.0336988,0.0039668,-1.34959) with 34 tracks.
+12:22:36    TutorialVert   INFO      	4. vertex at (-0.0415931,-0.0255754,1.36283) with 7 tracks.
+12:22:36    TutorialVert   INFO      	5. vertex at (-0.0253043,-0.0309469,-3.74706) with 8 tracks.
+12:22:36    TutorialVert   INFO      	6. vertex at (0,0,-0.00090111) with 35 tracks.
+12:22:36    TutorialVert   INFO      	7. vertex at (0.0117918,-0.0159643,3.8571) with 35 tracks.
+12:22:36    TutorialVert   DEBUG     AMVF end
+12:22:36    IterativeVer   DEBUG     Iterative start
+12:22:36    IterativeVer   INFO      Found 21 vertices in event 4
+12:22:36    IterativeVer   INFO      Found vertex at -0.0119511 -0.0115732   -4.80687          0 with 87 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.00935774  0.0175278    15.4293          0 with 90 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.00998667  -0.0283688    -9.02418           0 with 75 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.0295167  0.0122353   -1.33043          0 with 34 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.0321414  0.0564892   -59.6718          0 with 104 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at   0.160499 -0.0340591    4.07242          0 with 44 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.0395509 0.0825133  -23.6768         0 with 61 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.0831544 0.0144392   -22.058         0 with 32 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at  0.0407665 -0.0517695    38.1849          0 with 57 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at  -0.0987465 -0.00699624     10.1289           0 with 63 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.0159336 -0.0321652      55.97          0 with 93 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at  0.0736556 -0.0246446   -72.0382          0 with 61 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.00962207 -0.0498891   -30.7932          0 with 46 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.0144373   0.03545    -17.31         0 with 38 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.140042  0.121406   36.2563         0 with 28 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.0424503  0.0201824   -58.7499          0 with 36 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.0213571   -0.15786   -34.3436          0 with 25 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at -0.030508  0.106962  -6.73413         0 with 15 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at  0.138471 0.0180605  -39.7534         0 with 19 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.064671 0.122042  29.5529        0 with 26 tracks.
+12:22:36    IterativeVer   INFO      Found vertex at 0.00139716 -0.0116102    37.1292          0 with 15 tracks.
+12:22:36    IterativeVer   DEBUG     Iterative end
+12:22:36    Sequencer      INFO      finished event 4
+12:22:38    TutorialVert   INFO      Found 0 vertices in event 1
+12:22:38    TutorialVert   DEBUG     AMVF end
+12:22:38    IterativeVer   DEBUG     Iterative start
+12:22:38    IterativeVer   INFO      Found 40 vertices in event 1
+12:22:38    IterativeVer   INFO      Found vertex at 0.0232253 0.0332237   -37.053         0 with 70 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.0351487 -0.0190488   -57.1547          0 with 119 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.0368811 0.0306843  -31.3254         0 with 43 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.0213636 0.0114745  -24.3333         0 with 73 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.00305179  -0.0461991    -33.8619           0 with 69 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.00473931  0.0221903   -6.92795          0 with 37 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.0862862 0.0053737  -55.7513         0 with 56 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  -0.01222 0.0686965  -17.8273         0 with 43 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.00362079  0.0101819    27.0647          0 with 100 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.00755391  0.00970057    -68.9864           0 with 66 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0239302   0.103789   -10.2079          0 with 51 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.0570668  0.012855   14.1159         0 with 63 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.0141682 0.0221584  -43.8307         0 with 67 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.0351072  0.050923   -2.7537         0 with 51 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at   0.060161 0.00797527   -66.6163          0 with 35 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.121469 0.0903572   74.3415         0 with 57 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.00660459  -0.0243927    -20.7124           0 with 61 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.00365785 -0.0324745   -53.3382          0 with 42 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  -0.00433095 -0.000159011      30.7513            0 with 54 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.00279933 -0.0123683   -84.1226          0 with 70 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0696597 0.00906711   -27.8555          0 with 34 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.113699 0.0264918   44.7946         0 with 33 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.145908 0.0241317   74.9782         0 with 48 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0729089  0.0963943    7.67601          0 with 42 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.0304942 -0.0607164    -38.238          0 with 21 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0457275  -0.082336    48.6801          0 with 36 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  -0.0945184 -0.00232383    -32.1061           0 with 25 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.0236946 -0.0264083   -63.4713          0 with 33 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at 0.00832423  0.0553654    57.5208          0 with 16 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0365072 -0.0194481    1.31381          0 with 21 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0223306  0.0214111    34.6857          0 with 33 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0211286  0.0259738   -48.9328          0 with 28 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.00922668 -0.00760244     63.5329           0 with 17 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.0233438 -0.0574662   -90.3538          0 with 32 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.0535905 -0.0195875   -15.3981          0 with 22 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at  0.0142711 0.00855684     91.034          0 with 29 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.0444129   0.108264    46.4297          0 with 16 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at -0.189932 0.0907913  -75.8092         0 with 27 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at   -0.018533 -0.00587398     68.5223           0 with 35 tracks.
+12:22:38    IterativeVer   INFO      Found vertex at    0.25228 -0.0210298   -40.0101          0 with 15 tracks.
+12:22:38    IterativeVer   DEBUG     Iterative end
+12:22:38    Sequencer      INFO      finished event 1
+12:22:38    Sequencer      INFO      Processed 10 events in 34.457414 s (wall clock)
+12:22:38    Sequencer      INFO      Average time per event: 17.244465 s/event
+12:22:38    Sequencer      DEBUG     Average time per algorithm:
+12:22:38    Sequencer      DEBUG       Reader:EventGenerator: 3.968287 s/event
+12:22:38    Sequencer      DEBUG       Algorithm:ParticleSelector: 3.864047 ms/event
+12:22:38    Sequencer      DEBUG       Algorithm:ParticleSmearing: 1.397369 ms/event
+12:22:38    Sequencer      DEBUG       Algorithm:TutorialVertexFinder: 13.025230 s/event
+12:22:38    Sequencer      DEBUG       Algorithm:IterativeVertexFinder: 242.787101 ms/event
+12:22:38    Sequencer      DEBUG       Algorithm:AMVFvsIVFPrinter: 2.898971 ms/event

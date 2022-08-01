@@ -24,6 +24,8 @@ class NTuplePrinting final : public ActsExamples::BareAlgorithm{
     std::string ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
     std::string iterativeRecoVtxParameters;
     std::string AMVFRecoVtxParameters;
+    std::string ntupleTrackParameters;
+    std::string ntupleRecoVtxParameters;
 };
 
   NTuplePrinting(const Config& config,

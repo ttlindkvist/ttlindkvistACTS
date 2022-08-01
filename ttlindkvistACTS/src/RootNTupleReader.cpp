@@ -28,7 +28,7 @@
 
 Load some data in - try to print it out
 
-Should load relevant EventTree<x> automatically from .root
+Should load relevant EventTree<x> as = ctx.eventStore.get<ttlindkvist::RootNTupleReader::BranchPointerWrapper>(m_cfg.generatedTrackParameters);
 
 */
 
@@ -81,8 +81,11 @@ ttlindkvist::RootNTupleReader::RootNTupleReader(
   m_inputChain->SetBranchAddress("truthvertex_x", &m_branches.m_truthvertex_x); 
   m_inputChain->SetBranchAddress("truthvertex_y", &m_branches.m_truthvertex_y); 
   m_inputChain->SetBranchAddress("truthvertex_z", &m_branches.m_truthvertex_z); 
-  m_inputChain->SetBranchAddress("truthvertex_t", &m_branches.m_truthvertex_t); 
-  
+  m_inputChain->SetBranchAddress("truthvertex_t", &m_branches.m_truthvertex_t);
+   
+  m_inputChain->SetBranchAddress("recovertex_x", &m_branches.m_recovertex_x); 
+  m_inputChain->SetBranchAddress("recovertex_y", &m_branches.m_recovertex_y); 
+  m_inputChain->SetBranchAddress("recovertex_z", &m_branches.m_recovertex_z); 
   // m_inputChain->SetBranchAddress("truthvertex_tracks_idx",   &m_truthvertex_tracks_idx);
 
   auto path = m_cfg.filePath;
@@ -134,12 +137,11 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     
     unsigned int nTracks    = m_branches.m_track_d0->size();
     unsigned int nTruthVtx  = m_branches.m_truthvertex_z->size();
+    unsigned int nRecoVtx  = m_branches.m_recovertex_z->size();
     
     ACTS_DEBUG("nTracks = " << nTracks);
     ACTS_DEBUG("nTruthVtx = " << nTruthVtx);
-
-    
-      
+    ACTS_DEBUG("nRecoVtx = " << nRecoVtx);
     
     std::vector<Acts::BoundTrackParameters> trackContainer;
     for(unsigned int i = 0; i<nTracks; i++){
@@ -212,12 +214,21 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
                         (*m_branches.m_truthvertex_t)[i] );
       truthVertexContainer.push_back(vtx);
     }
+    std::vector<Acts::Vector4> recoVertexContainer;
+    for(unsigned int i = 0; i<nRecoVtx; i++){
+      Acts::Vector4 vtx((*m_branches.m_recovertex_x)[i],
+                        (*m_branches.m_recovertex_y)[i],
+                        (*m_branches.m_recovertex_z)[i],
+                        0 );
+      recoVertexContainer.push_back(vtx);
+    }
     
     context.eventStore.add(m_cfg.nTupleTrackParameters, std::move(trackContainer));
     context.eventStore.add(m_cfg.nTupleTruthVtxParameters, std::move(truthVertexContainer));
+    context.eventStore.add(m_cfg.nTupleRecoVtxParameters, std::move(recoVertexContainer));
     // Hasn't been checked yet, but should work
     // BranchPointerWrapper branchesCopy = m_branches; 
-    // context.eventStore.add(m_cfg.nTupleBranchPointerWrapper, std::move(branchesCopy)); 
+    context.eventStore.add(m_cfg.nTupleBranchPointerWrapper, &m_branches); 
   }
 
   // Return success flag

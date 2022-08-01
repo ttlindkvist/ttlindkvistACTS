@@ -5,6 +5,7 @@ add_library(
   src/NTupleIterativeVertexFinderAlgorithm.cpp
   src/NTupleReaderOptions.cpp
   src/NTuplePrinting.cpp
+  src/AMVFvsIVFPrinter.cpp
   src/RootNTupleReader.cpp
   src/VertexingResolutionAlgorithm.cpp
 )
@@ -33,3 +34,4 @@ target_link_libraries(
 install(
   TARGETS ttlindkvistACTS
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+

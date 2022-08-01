@@ -17,7 +17,6 @@
 
 // Extra
 #include <boost/format.hpp>
-// #include <boost/str.hpp>
 #include <fstream>
 
 ttlindkvist::VertexingResolutionAlgorithm::VertexingResolutionAlgorithm(
@@ -43,34 +42,42 @@ ActsExamples::ProcessCode ttlindkvist::VertexingResolutionAlgorithm::execute(
     const auto& inputRecoVtxs =
       ctx.eventStore.get<std::vector<Acts::Vertex<Acts::BoundTrackParameters>>>(m_cfg.recoVtxParameters);
     
-    // const double maxDeltaZ = 1; // mm
-    // const double minSumPt2 = 15**2; // GeV**2
-    // std::vector<Acts::Vertex<Acts::BoundTrackParameters>> filteredRecoVtxs;
+    const double maxDeltaZ = 1; // mm
+    const double minSumPt = 15; // GeV
+    const double minSumPt2 = minSumPt*minSumPt; // GeV**2
+    std::vector<Acts::Vertex<Acts::BoundTrackParameters>> filteredRecoVtxs;
 
-    // std::vector<double> deltaZs;
+    std::vector<double> deltaZs;
 
-    // for(const auto &recoVtx : inputRecoVtxs){
-    //     double sumPt2 = 0;
-    //     for(const auto& track : recoVtx.tracks()){
-    //         sumPt2 += track.transverseMomentum()**2;
-    //     }
-    //     if(sumPt2 >= minSumPt2){
-    //         //Compute z vertexing resolution
-    //         for(const auto &t_vtx : inputTruthVtxs){
-    //             double truth_z = t_vtx[2];
+    for(const auto &recoVtx : inputRecoVtxs){
+        double sumPt2 = 0;
+        for(const auto& track : recoVtx.tracks()){
+            double pt = track.originalParams->transverseMomentum();
+            sumPt2 += pt*pt;
+        }
+        if(sumPt2 >= minSumPt2){
+            //Compute z vertexing resolution
+            for(const auto &t_vtx : inputTruthVtxs){
+                double truth_z = t_vtx[2];
                 
-    //             double deltaZ = truth_z - recoVtx.position()[2];
-    //             if(deltaZ*deltaZ < maxDeltaZ*maxDeltaZ){
-    //                 deltaZs.push_back(deltaZ);
-    //             }
-    //         }
-    //     }
-    // }
+                double deltaZ = truth_z - recoVtx.position()[2];
+                if(deltaZ*deltaZ < maxDeltaZ*maxDeltaZ){
+                    deltaZs.push_back(deltaZ);
+                }
+            }
+        }
+    }
     
     //Print output
+    std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_deltaz_minSumPt2_%3%.txt") % m_cfg.outputDir % ctx.eventNumber % minSumPt));
+    for(const auto& delz : deltaZs){
+        outputFile << delz << " ";
+    }
+    outputFile.close();
     
     
-    // ctx.eventstore.add(m_cfg.output, std::move(deltaZs));
+    
+    ctx.eventStore.add(m_cfg.output, std::move(deltaZs));
     
     return ActsExamples::ProcessCode::SUCCESS;
 }

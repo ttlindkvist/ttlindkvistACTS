@@ -35,6 +35,7 @@ class RootNTupleReader : public ActsExamples::IReader {
     bool orderedEvents = true;
     std::string nTupleTrackParameters = "nTupleTrackParameters";
     std::string nTupleTruthVtxParameters = "nTupleTruthVtxParameters";
+    std::string nTupleRecoVtxParameters = "nTupleRecoVtxParameters";
     std::string nTupleBranchPointerWrapper = "nTupleBranchPointerWrapper";
   };
 
@@ -67,6 +68,10 @@ class RootNTupleReader : public ActsExamples::IReader {
     std::vector<float> *m_truthvertex_y;
     std::vector<float> *m_truthvertex_z;
     std::vector<float> *m_truthvertex_t;
+    
+    std::vector<float> *m_recovertex_x;
+    std::vector<float> *m_recovertex_y;
+    std::vector<float> *m_recovertex_z;
 
     std::vector<std::vector<int>> *m_truthvertex_tracks_idx;
     BranchPointerWrapper(){
@@ -96,6 +101,11 @@ class RootNTupleReader : public ActsExamples::IReader {
         m_truthvertex_y = new std::vector<float>;
         m_truthvertex_z = new std::vector<float>;
         m_truthvertex_t = new std::vector<float>;
+        
+        m_recovertex_x = new std::vector<float>;
+        m_recovertex_y = new std::vector<float>;
+        m_recovertex_z = new std::vector<float>;
+        
         m_truthvertex_tracks_idx = new std::vector<std::vector<int>>;
     }
     ~BranchPointerWrapper(){
@@ -126,6 +136,9 @@ class RootNTupleReader : public ActsExamples::IReader {
         delete m_truthvertex_y;
         delete m_truthvertex_z;
         delete m_truthvertex_t;
+        delete m_recovertex_x;
+        delete m_recovertex_y;
+        delete m_recovertex_z;
     }
   };
 

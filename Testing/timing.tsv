@@ -1,6 +1,8 @@
 identifier	time_total_s	time_perevent_s
-Reader:RootNTupleReader	1.848	0.01283
-Algorithm:TutorialVertexFinder	875.7	6.081
-Algorithm:IterativeVertexFinder	37.52	0.2605
-Algorithm:NTuplePrinting	8.597	0.0597
-Algorithm:VertexingResolutionAlgorithm	0.0009174	6.371e-06
+Reader:RootNTupleReader	1.626	0.01129
+Algorithm:TutorialVertexFinder	767.9	5.333
+Algorithm:IterativeVertexFinder	32.22	0.2238
+Algorithm:NTuplePrinting	7.726	0.05365
+Algorithm:VertexingResolutionAlgorithm	0.04703	0.0003266
+Algorithm:VertexingResolutionAlgorithm	0.03343	0.0002322
+Algorithm:VertexingResolutionAlgorithm	0.02308	0.0001603

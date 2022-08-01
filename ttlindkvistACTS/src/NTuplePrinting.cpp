@@ -15,6 +15,8 @@
 #include "ActsExamples/Framework/WhiteBoard.hpp"
 #include "Acts/Vertexing/Vertex.hpp"
 
+#include "Acts/Definitions/TrackParametrization.hpp"
+
 // Extra
 #include <boost/format.hpp>
 // #include <boost/str.hpp>
@@ -37,14 +39,53 @@ ActsExamples::ProcessCode ttlindkvist::NTuplePrinting::execute(
     
   const auto& inputTruthVtxs =
         ctx.eventStore.get<std::vector<Acts::Vector4>>(m_cfg.ntupleTruthVtxParameters);
+  const auto& inputNTupleRecoVtxs =
+        ctx.eventStore.get<std::vector<Acts::Vector4>>(m_cfg.ntupleRecoVtxParameters);
+  
+  //Printing truth vtxs
   {
     //Open event file
     std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_truth.txt") % m_cfg.outputDir % ctx.eventNumber));
-    outputFile << inputTruthVtxs.size() << " " << inputTruthVtxs.size() << std::endl; 
+    outputFile << inputTruthVtxs.size() << " " << inputNTupleRecoVtxs.size() << " 0" << std::endl; 
     
     for(const auto& vtx : inputTruthVtxs){
       //Writing to file
       outputFile << vtx.transpose() << std::endl;
+    }
+    outputFile.close();
+  }
+  //Printing reco vtxs
+  {
+    //Open event file
+    std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_ntuple_reco.txt") % m_cfg.outputDir % ctx.eventNumber));
+    outputFile << inputTruthVtxs.size() << " " << inputNTupleRecoVtxs.size() << " 0" << std::endl; 
+    
+    for(const auto& vtx : inputNTupleRecoVtxs){
+      //Writing to file
+      outputFile << vtx.transpose() << std::endl;
+    }
+    outputFile.close();
+  }
+   
+  const auto& inputTracks =
+      ctx.eventStore.get<std::vector<Acts::BoundTrackParameters>>(m_cfg.ntupleTrackParameters);
+  if(ctx.eventNumber < 10){
+    //Open event file
+    std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_cov.txt") % m_cfg.outputDir % ctx.eventNumber));
+    outputFile << inputTracks.size() << std::endl; 
+    
+    int trackCounter = 0;
+    for(const auto& track : inputTracks){
+        if(trackCounter > 10) break;
+        if(track.covariance().has_value()){
+            auto cov = track.covariance().value();
+            outputFile << cov << std::endl << std::endl;
+        }
+        else{
+            std::cout << "No covariance matrix!!!" << std::endl;
+        }
+        
+        trackCounter++;
     }
     outputFile.close();
   }
@@ -54,7 +95,7 @@ ActsExamples::ProcessCode ttlindkvist::NTuplePrinting::execute(
       ctx.eventStore.get<std::vector<Acts::Vertex<Acts::BoundTrackParameters>>>(m_cfg.iterativeRecoVtxParameters);
     //Open event file
     std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_IVF.txt") % m_cfg.outputDir % ctx.eventNumber));
-    outputFile << inputTruthVtxs.size() << " " << IVFVtxs.size() << std::endl; 
+    outputFile << inputTruthVtxs.size() << " " << inputNTupleRecoVtxs.size() << " " << IVFVtxs.size() << std::endl; 
     
     unsigned int vtxId = 0;
     for(const auto& vtx : IVFVtxs){
@@ -81,7 +122,7 @@ ActsExamples::ProcessCode ttlindkvist::NTuplePrinting::execute(
       ctx.eventStore.get<std::vector<Acts::Vertex<Acts::BoundTrackParameters>>>(m_cfg.AMVFRecoVtxParameters);
     //Open event file
     std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_AMVF.txt") % m_cfg.outputDir % ctx.eventNumber));
-    outputFile << inputTruthVtxs.size() << " " << AMVFVtxs.size() << std::endl; 
+    outputFile << inputTruthVtxs.size() << " " << inputNTupleRecoVtxs.size() << " " << AMVFVtxs.size() << std::endl; 
     
     for(const auto& vtx : AMVFVtxs){
       //Writing to file

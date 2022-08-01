@@ -37,6 +37,17 @@ ActsExamples::ProcessCode ttlindkvist::NTuplePrinting::execute(
     
   const auto& inputTruthVtxs =
         ctx.eventStore.get<std::vector<Acts::Vector4>>(m_cfg.ntupleTruthVtxParameters);
+  {
+    //Open event file
+    std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_truth.txt") % m_cfg.outputDir % ctx.eventNumber));
+    outputFile << inputTruthVtxs.size() << " " << inputTruthVtxs.size() << std::endl; 
+    
+    for(const auto& vtx : inputTruthVtxs){
+      //Writing to file
+      outputFile << vtx.transpose() << std::endl;
+    }
+    outputFile.close();
+  }
    
   if(!m_cfg.iterativeRecoVtxParameters.empty()){
     const auto& IVFVtxs =

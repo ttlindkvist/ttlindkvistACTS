@@ -35,6 +35,98 @@ class RootNTupleReader : public ActsExamples::IReader {
     bool orderedEvents = true;
     std::string nTupleTrackParameters = "nTupleTrackParameters";
     std::string nTupleTruthVtxParameters = "nTupleTruthVtxParameters";
+    std::string nTupleBranchPointerWrapper = "nTupleBranchPointerWrapper";
+  };
+
+  struct BranchPointerWrapper {
+    std::vector<float> *m_track_d0;
+    std::vector<float> *m_track_z0;
+    std::vector<float> *m_track_theta;
+    std::vector<float> *m_track_phi;
+    std::vector<float> *m_track_qOverP;
+    std::vector<float> *m_track_t;
+    std::vector<float> *m_track_z;
+    
+    std::vector<float> *m_track_var_d0;
+    std::vector<float> *m_track_var_z0;
+    std::vector<float> *m_track_var_phi;
+    std::vector<float> *m_track_var_theta;
+    std::vector<float> *m_track_var_qOverP;
+    std::vector<float> *m_track_cov_d0z0;
+    std::vector<float> *m_track_cov_d0phi;
+    std::vector<float> *m_track_cov_d0theta;
+    std::vector<float> *m_track_cov_d0qOverP;
+    std::vector<float> *m_track_cov_z0phi;
+    std::vector<float> *m_track_cov_z0theta;
+    std::vector<float> *m_track_cov_z0qOverP;
+    std::vector<float> *m_track_cov_phitheta;
+    std::vector<float> *m_track_cov_phiqOverP;
+    std::vector<float> *m_track_cov_tehtaqOverP;
+
+    std::vector<float> *m_truthvertex_x;
+    std::vector<float> *m_truthvertex_y;
+    std::vector<float> *m_truthvertex_z;
+    std::vector<float> *m_truthvertex_t;
+
+    std::vector<std::vector<int>> *m_truthvertex_tracks_idx;
+    BranchPointerWrapper(){
+        m_track_d0      = new std::vector<float>;
+        m_track_z0      = new std::vector<float>;
+        m_track_theta   = new std::vector<float>;
+        m_track_phi     = new std::vector<float>;
+        m_track_qOverP  = new std::vector<float>;
+        m_track_t       = new std::vector<float>;
+        m_track_z       = new std::vector<float>;
+        m_track_var_d0 = new std::vector<float>;
+        m_track_var_z0 = new std::vector<float>;
+        m_track_var_phi = new std::vector<float>;
+        m_track_var_theta = new std::vector<float>;
+        m_track_var_qOverP = new std::vector<float>;
+        m_track_cov_d0z0 = new std::vector<float>;
+        m_track_cov_d0phi = new std::vector<float>;
+        m_track_cov_d0theta = new std::vector<float>;
+        m_track_cov_d0qOverP = new std::vector<float>;
+        m_track_cov_z0phi = new std::vector<float>;
+        m_track_cov_z0theta = new std::vector<float>;
+        m_track_cov_z0qOverP = new std::vector<float>;
+        m_track_cov_phitheta = new std::vector<float>;
+        m_track_cov_phiqOverP = new std::vector<float>;
+        m_track_cov_tehtaqOverP = new std::vector<float>;
+        m_truthvertex_x = new std::vector<float>;
+        m_truthvertex_y = new std::vector<float>;
+        m_truthvertex_z = new std::vector<float>;
+        m_truthvertex_t = new std::vector<float>;
+        m_truthvertex_tracks_idx = new std::vector<std::vector<int>>;
+    }
+    ~BranchPointerWrapper(){
+        delete m_track_d0;
+        delete m_track_z0;
+        delete m_track_theta;
+        delete m_track_phi;
+        delete m_track_qOverP;
+        delete m_track_t;
+        delete m_track_z;
+        delete m_track_var_d0;
+        delete m_track_var_z0;
+        delete m_track_var_phi;
+        delete m_track_var_theta;
+        delete m_track_var_qOverP;
+        delete m_track_cov_d0z0;
+        delete m_track_cov_d0phi;
+        delete m_track_cov_d0theta;
+        delete m_track_cov_d0qOverP;
+        delete m_track_cov_z0phi;
+        delete m_track_cov_z0theta;
+        delete m_track_cov_z0qOverP;
+        delete m_track_cov_phitheta;
+        delete m_track_cov_phiqOverP;
+        delete m_track_cov_tehtaqOverP;
+        delete m_truthvertex_tracks_idx;
+        delete m_truthvertex_x;
+        delete m_truthvertex_y;
+        delete m_truthvertex_z;
+        delete m_truthvertex_t;
+    }
   };
 
   /// Constructor
@@ -58,6 +150,9 @@ class RootNTupleReader : public ActsExamples::IReader {
 
   /// Readonly access to the config
   const Config& config() const { return m_cfg; }
+
+  /// Readonly access to the branches
+  const BranchPointerWrapper& branches() const { return m_branches; }
 
  private:
   /// Private access to the logging instance
@@ -83,36 +178,8 @@ class RootNTupleReader : public ActsExamples::IReader {
   /// multiple entries corresponding to one event number)
   std::vector<long long> m_entryNumbers = {};
   
-  std::vector<float> *m_track_d0      = new std::vector<float>;
-  std::vector<float> *m_track_z0      = new std::vector<float>;
-  std::vector<float> *m_track_theta   = new std::vector<float>;
-  std::vector<float> *m_track_phi     = new std::vector<float>;
-  std::vector<float> *m_track_qOverP  = new std::vector<float>;
-  std::vector<float> *m_track_t       = new std::vector<float>;
-  std::vector<float> *m_track_z       = new std::vector<float>;
-  
-  std::vector<float> *m_track_var_d0 = new std::vector<float>;
-  std::vector<float> *m_track_var_z0 = new std::vector<float>;
-  std::vector<float> *m_track_var_phi = new std::vector<float>;
-  std::vector<float> *m_track_var_theta = new std::vector<float>;
-  std::vector<float> *m_track_var_qOverP = new std::vector<float>;
-  std::vector<float> *m_track_cov_d0z0 = new std::vector<float>;
-  std::vector<float> *m_track_cov_d0phi = new std::vector<float>;
-  std::vector<float> *m_track_cov_d0theta = new std::vector<float>;
-  std::vector<float> *m_track_cov_d0qOverP = new std::vector<float>;
-  std::vector<float> *m_track_cov_z0phi = new std::vector<float>;
-  std::vector<float> *m_track_cov_z0theta = new std::vector<float>;
-  std::vector<float> *m_track_cov_z0qOverP = new std::vector<float>;
-  std::vector<float> *m_track_cov_phitheta = new std::vector<float>;
-  std::vector<float> *m_track_cov_phiqOverP = new std::vector<float>;
-  std::vector<float> *m_track_cov_tehtaqOverP = new std::vector<float>;
-
-  std::vector<float> *m_truthvertex_x = new std::vector<float>;
-  std::vector<float> *m_truthvertex_y = new std::vector<float>;
-  std::vector<float> *m_truthvertex_z = new std::vector<float>;
-  std::vector<float> *m_truthvertex_t = new std::vector<float>;
-
-  std::vector<std::vector<int>> *m_truthvertex_tracks_idx = new std::vector<std::vector<int>>;
+  /// The handle to branches in current event
+  BranchPointerWrapper m_branches;
 };
 
 }  // namespace ttlindkvist

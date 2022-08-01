@@ -78,7 +78,6 @@ int main(int argc, char* argv[]) {
   selectParticles.ptMin = vars["vertexing-pt-min"].as<double>() * 1_MeV;
   sequencer.addAlgorithm(
       std::make_shared<ParticleSelector>(selectParticles, logLevel));
-  // ACTS_DEBUG("Sequencer: add particle pre-selection");
 
   // Run the particle smearing
   std::cout << "\nRun particle smearing\n";
@@ -91,6 +90,7 @@ int main(int argc, char* argv[]) {
   findVerticesAMVF.bField = magneticField;
   findVerticesAMVF.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
   findVerticesAMVF.outputProtoVertices = "protovertices";
+  findVerticesAMVF.outputVertices = "AMVF_vertices";
   sequencer.addAlgorithm(
       std::make_shared<ttlindkvist::TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
   // ACTS_DEBUG("Sequencer: vertex finding algorithm");
@@ -100,6 +100,7 @@ int main(int argc, char* argv[]) {
   findVerticesIterative.bField = magneticField;
   findVerticesIterative.inputTrackParameters = particleSmearingCfg.outputTrackParameters;
   findVerticesIterative.outputProtoVertices = "protovertices";
+  findVerticesIterative.outputVertices = "IVF_vertices";
   sequencer.addAlgorithm(
       std::make_shared<ttlindkvist::IterativeVertexFinderAlgorithm>(findVerticesIterative, logLevel));
 

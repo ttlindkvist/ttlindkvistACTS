@@ -33,7 +33,6 @@
 
 // Extra
 #include <boost/format.hpp>
-// #include <boost/algorithm/string.hpp>
 #include <fstream>
 
 ttlindkvist::TutorialVertexFinderAlgorithm::TutorialVertexFinderAlgorithm(

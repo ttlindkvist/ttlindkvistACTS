@@ -23,6 +23,7 @@ class VertexingResolutionAlgorithm final : public ActsExamples::BareAlgorithm{
     std::string outputDir = "ntuple_check/";
     std::string ntupleTruthVtxParameters = "nTupleTruthVtxParameters";
     std::string recoVtxParameters;
+    std::string output = "resolutionOutput";
 };
 
   VertexingResolutionAlgorithm(const Config& config,

@@ -43,9 +43,34 @@ ActsExamples::ProcessCode ttlindkvist::VertexingResolutionAlgorithm::execute(
     const auto& inputRecoVtxs =
       ctx.eventStore.get<std::vector<Acts::Vertex<Acts::BoundTrackParameters>>>(m_cfg.recoVtxParameters);
     
-    //Compute z vertexing resolution
+    // const double maxDeltaZ = 1; // mm
+    // const double minSumPt2 = 15**2; // GeV**2
+    // std::vector<Acts::Vertex<Acts::BoundTrackParameters>> filteredRecoVtxs;
+
+    // std::vector<double> deltaZs;
+
+    // for(const auto &recoVtx : inputRecoVtxs){
+    //     double sumPt2 = 0;
+    //     for(const auto& track : recoVtx.tracks()){
+    //         sumPt2 += track.transverseMomentum()**2;
+    //     }
+    //     if(sumPt2 >= minSumPt2){
+    //         //Compute z vertexing resolution
+    //         for(const auto &t_vtx : inputTruthVtxs){
+    //             double truth_z = t_vtx[2];
+                
+    //             double deltaZ = truth_z - recoVtx.position()[2];
+    //             if(deltaZ*deltaZ < maxDeltaZ*maxDeltaZ){
+    //                 deltaZs.push_back(deltaZ);
+    //             }
+    //         }
+    //     }
+    // }
+    
+    //Print output
     
     
-   
+    // ctx.eventstore.add(m_cfg.output, std::move(deltaZs));
+    
     return ActsExamples::ProcessCode::SUCCESS;
 }

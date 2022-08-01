@@ -28,6 +28,28 @@
 using namespace Acts::UnitLiterals;
 using namespace ActsExamples;
 
+#include "Acts/Definitions/Units.hpp"
+#include "Acts/Utilities/Logger.hpp"
+
+#include "ActsExamples/Framework/Sequencer.hpp"
+#include "ActsExamples/MagneticField/MagneticFieldOptions.hpp"
+#include "ActsExamples/Options/CommonOptions.hpp"
+#include "ActsExamples/Options/Pythia8Options.hpp"
+#include "ActsExamples/Reconstruction/ReconstructionBase.hpp"
+#include "ActsExamples/TruthTracking/ParticleSelector.hpp"
+#include "ActsExamples/TruthTracking/ParticleSmearing.hpp"
+#include "ActsExamples/Vertexing/VertexingOptions.hpp"
+
+//Replace these with modified
+#include "ttlindkvistACTS/ModifiedAMVFAlgorithm.hpp"
+#include "ttlindkvistACTS/ModifiedIterativeVertexFinderAlgorithm.hpp"
+
+#include <typeinfo>
+#include <memory>
+
+using namespace Acts::UnitLiterals;
+using namespace ActsExamples;
+
 int main(int argc, char* argv[]) {
   // setup and parse options
   auto desc = Options::makeDefaultOptions();
@@ -55,8 +77,7 @@ int main(int argc, char* argv[]) {
   ttlindkvist::RootNTupleReader::Config ntupleReaderConf = ttlindkvist::Options::readNTupleReaderOptions(vars);
   ntupleReaderConf.nTupleTruthVtxParameters = "nTupleTruthVtxParameters";
   sequencer.addReader(std::make_shared<ttlindkvist::RootNTupleReader>(ntupleReaderConf, logLevel));
-  
-  std::cout << "\nFind verteces\n";
+ 
   
   // ############################################
   // #### Commented out because it runs slow ####
@@ -72,6 +93,7 @@ int main(int argc, char* argv[]) {
   // Find vertices using iterative method
   ttlindkvist::NTupleIterativeVertexFinderAlgorithm::Config findVerticesIterative;
   findVerticesIterative.bField = magneticField;
+  findVerticesIterative.inputTrackParameters = "nTupleTrackParameters";
   findVerticesIterative.outputProtoVertices = "protovertices";
   findVerticesIterative.outputVertices = "IVF_vertices";
   sequencer.addAlgorithm(

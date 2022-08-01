@@ -49,38 +49,39 @@ ttlindkvist::RootNTupleReader::RootNTupleReader(
     throw std::invalid_argument("Missing tree name");
   }
 
+
   // Set the branches
   m_inputChain->SetBranchAddress("EventNumber",   &m_eventNumber);
-  m_inputChain->SetBranchAddress("track_d0",      &m_track_d0);
-  m_inputChain->SetBranchAddress("track_z0",      &m_track_z0);
-  m_inputChain->SetBranchAddress("track_theta",   &m_track_theta);
-  m_inputChain->SetBranchAddress("track_phi",     &m_track_phi);
-  m_inputChain->SetBranchAddress("track_qOverP",  &m_track_qOverP);
-  m_inputChain->SetBranchAddress("track_t",       &m_track_t);
-  m_inputChain->SetBranchAddress("track_z",       &m_track_z);
+  m_inputChain->SetBranchAddress("track_d0",      &m_branches.m_track_d0);
+  m_inputChain->SetBranchAddress("track_z0",      &m_branches.m_track_z0);
+  m_inputChain->SetBranchAddress("track_theta",   &m_branches.m_track_theta);
+  m_inputChain->SetBranchAddress("track_phi",     &m_branches.m_track_phi);
+  m_inputChain->SetBranchAddress("track_qOverP",  &m_branches.m_track_qOverP);
+  m_inputChain->SetBranchAddress("track_t",       &m_branches.m_track_t);
+  m_inputChain->SetBranchAddress("track_z",       &m_branches.m_track_z);
   
   // Covariance stuff
-  m_inputChain->SetBranchAddress("track_var_d0",            &m_track_var_d0);
-  m_inputChain->SetBranchAddress("track_var_z0",            &m_track_var_z0);
-  m_inputChain->SetBranchAddress("track_var_phi",           &m_track_var_phi);
-  m_inputChain->SetBranchAddress("track_var_theta",         &m_track_var_theta);
-  m_inputChain->SetBranchAddress("track_var_qOverP",        &m_track_var_qOverP);
-  m_inputChain->SetBranchAddress("track_cov_d0z0",          &m_track_cov_d0z0);
-  m_inputChain->SetBranchAddress("track_cov_d0phi",         &m_track_cov_d0phi);
-  m_inputChain->SetBranchAddress("track_cov_d0theta",       &m_track_cov_d0theta);
-  m_inputChain->SetBranchAddress("track_cov_d0qOverP",      &m_track_cov_d0qOverP);
-  m_inputChain->SetBranchAddress("track_cov_z0phi",         &m_track_cov_z0phi);
-  m_inputChain->SetBranchAddress("track_cov_z0theta",       &m_track_cov_z0theta);
-  m_inputChain->SetBranchAddress("track_cov_z0qOverP",      &m_track_cov_z0qOverP);
-  m_inputChain->SetBranchAddress("track_cov_phitheta",      &m_track_cov_phitheta);
-  m_inputChain->SetBranchAddress("track_cov_phiqOverP",     &m_track_cov_phiqOverP);
-  m_inputChain->SetBranchAddress("track_cov_tehtaqOverP",   &m_track_cov_tehtaqOverP);
+  m_inputChain->SetBranchAddress("track_var_d0",            &m_branches.m_track_var_d0);
+  m_inputChain->SetBranchAddress("track_var_z0",            &m_branches.m_track_var_z0);
+  m_inputChain->SetBranchAddress("track_var_phi",           &m_branches.m_track_var_phi);
+  m_inputChain->SetBranchAddress("track_var_theta",         &m_branches.m_track_var_theta);
+  m_inputChain->SetBranchAddress("track_var_qOverP",        &m_branches.m_track_var_qOverP);
+  m_inputChain->SetBranchAddress("track_cov_d0z0",          &m_branches.m_track_cov_d0z0);
+  m_inputChain->SetBranchAddress("track_cov_d0phi",         &m_branches.m_track_cov_d0phi);
+  m_inputChain->SetBranchAddress("track_cov_d0theta",       &m_branches.m_track_cov_d0theta);
+  m_inputChain->SetBranchAddress("track_cov_d0qOverP",      &m_branches.m_track_cov_d0qOverP);
+  m_inputChain->SetBranchAddress("track_cov_z0phi",         &m_branches.m_track_cov_z0phi);
+  m_inputChain->SetBranchAddress("track_cov_z0theta",       &m_branches.m_track_cov_z0theta);
+  m_inputChain->SetBranchAddress("track_cov_z0qOverP",      &m_branches.m_track_cov_z0qOverP);
+  m_inputChain->SetBranchAddress("track_cov_phitheta",      &m_branches.m_track_cov_phitheta);
+  m_inputChain->SetBranchAddress("track_cov_phiqOverP",     &m_branches.m_track_cov_phiqOverP);
+  m_inputChain->SetBranchAddress("track_cov_tehtaqOverP",   &m_branches.m_track_cov_tehtaqOverP);
   
   // Truth vertex
-  m_inputChain->SetBranchAddress("truthvertex_x", &m_truthvertex_x); 
-  m_inputChain->SetBranchAddress("truthvertex_y", &m_truthvertex_y); 
-  m_inputChain->SetBranchAddress("truthvertex_z", &m_truthvertex_z); 
-  m_inputChain->SetBranchAddress("truthvertex_t", &m_truthvertex_t); 
+  m_inputChain->SetBranchAddress("truthvertex_x", &m_branches.m_truthvertex_x); 
+  m_inputChain->SetBranchAddress("truthvertex_y", &m_branches.m_truthvertex_y); 
+  m_inputChain->SetBranchAddress("truthvertex_z", &m_branches.m_truthvertex_z); 
+  m_inputChain->SetBranchAddress("truthvertex_t", &m_branches.m_truthvertex_t); 
   
   // m_inputChain->SetBranchAddress("truthvertex_tracks_idx",   &m_truthvertex_tracks_idx);
 
@@ -131,8 +132,8 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
                                 << " stored as entry: " << entry);
 
     
-    unsigned int nTracks    = m_track_d0->size();
-    unsigned int nTruthVtx  = m_truthvertex_z->size();
+    unsigned int nTracks    = m_branches.m_track_d0->size();
+    unsigned int nTruthVtx  = m_branches.m_truthvertex_z->size();
     
     ACTS_DEBUG("nTracks = " << nTracks);
     ACTS_DEBUG("nTruthVtx = " << nTruthVtx);
@@ -146,44 +147,44 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
       using ParametersVector = Acts::BoundVector;
       Acts::BoundVector params;
       
-      params[Acts::BoundIndices::eBoundLoc0]    = (*m_track_d0)[i];
-      params[Acts::BoundIndices::eBoundLoc1]    = (*m_track_z0)[i];
-      params[Acts::BoundIndices::eBoundPhi]     = (*m_track_phi)[i];
-      params[Acts::BoundIndices::eBoundTheta]   = (*m_track_theta)[i];
-      params[Acts::BoundIndices::eBoundQOverP]  = (*m_track_qOverP)[i];
-      params[Acts::BoundIndices::eBoundTime]    = (*m_track_t)[i];
+      params[Acts::BoundIndices::eBoundLoc0]    = (*m_branches.m_track_d0)[i];
+      params[Acts::BoundIndices::eBoundLoc1]    = (*m_branches.m_track_z0)[i];
+      params[Acts::BoundIndices::eBoundPhi]     = (*m_branches.m_track_phi)[i];
+      params[Acts::BoundIndices::eBoundTheta]   = (*m_branches.m_track_theta)[i];
+      params[Acts::BoundIndices::eBoundQOverP]  = (*m_branches.m_track_qOverP)[i];
+      params[Acts::BoundIndices::eBoundTime]    = (*m_branches.m_track_t)[i];
       
       double q = 1;
       //Construct and fill covariance matrix
       Acts::BoundSymMatrix cov;
       //Variances
-      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundLoc0) = (*m_track_var_d0)[i];
-      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundLoc1) = (*m_track_var_z0)[i];
-      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundPhi) =   (*m_track_var_phi)[i];
-      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundTheta) = (*m_track_var_theta)[i];
-      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundQOverP) = (*m_track_var_qOverP)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundLoc0)     = (*m_branches.m_track_var_d0)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundLoc1)     = (*m_branches.m_track_var_z0)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundPhi)       = (*m_branches.m_track_var_phi)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundTheta)   = (*m_branches.m_track_var_theta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundQOverP) = (*m_branches.m_track_var_qOverP)[i];
       
-      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_d0z0)[i];
-      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_d0phi)[i];
-      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundTheta) =   (*m_track_cov_d0theta)[i];
-      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_d0qOverP)[i];
-      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_z0phi)[i];
-      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundTheta) = (*m_track_cov_z0theta)[i];
-      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_z0qOverP)[i];
-      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundTheta) = (*m_track_cov_phitheta)[i];
-      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_phiqOverP)[i];
-      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundQOverP) = (*m_track_cov_tehtaqOverP)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundLoc1)    = (*m_branches.m_track_cov_d0z0)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundPhi)     = (*m_branches.m_track_cov_d0phi)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundTheta)   = (*m_branches.m_track_cov_d0theta)[i];
+      cov(Acts::BoundIndices::eBoundLoc0, Acts::BoundIndices::eBoundQOverP)  = (*m_branches.m_track_cov_d0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundPhi)     = (*m_branches.m_track_cov_z0phi)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundTheta)   = (*m_branches.m_track_cov_z0theta)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundQOverP)  = (*m_branches.m_track_cov_z0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundTheta)    = (*m_branches.m_track_cov_phitheta)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundQOverP)   = (*m_branches.m_track_cov_phiqOverP)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundQOverP) = (*m_branches.m_track_cov_tehtaqOverP)[i];
       
-      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundLoc0) = (*m_track_cov_d0z0)[i];
-      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundLoc0) = (*m_track_cov_d0phi)[i];
-      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundLoc0) =   (*m_track_cov_d0theta)[i];
-      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundLoc0) = (*m_track_cov_d0qOverP)[i];
-      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_z0phi)[i];
-      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_z0theta)[i];
-      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundLoc1) = (*m_track_cov_z0qOverP)[i];
-      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_phitheta)[i];
-      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundPhi) = (*m_track_cov_phiqOverP)[i];
-      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundTheta) = (*m_track_cov_tehtaqOverP)[i];
+      cov(Acts::BoundIndices::eBoundLoc1, Acts::BoundIndices::eBoundLoc0)    = (*m_branches.m_track_cov_d0z0)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundLoc0)     = (*m_branches.m_track_cov_d0phi)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundLoc0)   = (*m_branches.m_track_cov_d0theta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundLoc0)  = (*m_branches.m_track_cov_d0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundPhi, Acts::BoundIndices::eBoundLoc1)     = (*m_branches.m_track_cov_z0phi)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundLoc1)   = (*m_branches.m_track_cov_z0theta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundLoc1)  = (*m_branches.m_track_cov_z0qOverP)[i];
+      cov(Acts::BoundIndices::eBoundTheta, Acts::BoundIndices::eBoundPhi)    = (*m_branches.m_track_cov_phitheta)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundPhi)   = (*m_branches.m_track_cov_phiqOverP)[i];
+      cov(Acts::BoundIndices::eBoundQOverP, Acts::BoundIndices::eBoundTheta) = (*m_branches.m_track_cov_tehtaqOverP)[i];
       
       //Try add time covariances
       cov(Acts::BoundIndices::eBoundTime, Acts::BoundIndices::eBoundTime)   = 1;
@@ -205,15 +206,18 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     
     std::vector<Acts::Vector4> truthVertexContainer;
     for(unsigned int i = 0; i<nTruthVtx; i++){
-      Acts::Vector4 vtx((*m_truthvertex_x)[i],
-                        (*m_truthvertex_y)[i],
-                        (*m_truthvertex_z)[i],
-                        (*m_truthvertex_t)[i] );
+      Acts::Vector4 vtx((*m_branches.m_truthvertex_x)[i],
+                        (*m_branches.m_truthvertex_y)[i],
+                        (*m_branches.m_truthvertex_z)[i],
+                        (*m_branches.m_truthvertex_t)[i] );
       truthVertexContainer.push_back(vtx);
     }
     
     context.eventStore.add(m_cfg.nTupleTrackParameters, std::move(trackContainer));
     context.eventStore.add(m_cfg.nTupleTruthVtxParameters, std::move(truthVertexContainer));
+    // Hasn't been checked yet, but should work
+    // BranchPointerWrapper branchesCopy = m_branches; 
+    // context.eventStore.add(m_cfg.nTupleBranchPointerWrapper, std::move(branchesCopy)); 
   }
 
   // Return success flag
@@ -221,34 +225,6 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
 }
 
 ttlindkvist::RootNTupleReader::~RootNTupleReader() {
-  delete m_track_d0;
-  delete m_track_z0;
-  delete m_track_theta;
-  delete m_track_phi;
-  delete m_track_qOverP;
-  delete m_track_t;
-  delete m_track_z;
-  delete m_track_var_d0;
-  delete m_track_var_z0;
-  delete m_track_var_phi;
-  delete m_track_var_theta;
-  delete m_track_var_qOverP;
-  delete m_track_cov_d0z0;
-  delete m_track_cov_d0phi;
-  delete m_track_cov_d0theta;
-  delete m_track_cov_d0qOverP;
-  delete m_track_cov_z0phi;
-  delete m_track_cov_z0theta;
-  delete m_track_cov_z0qOverP;
-  delete m_track_cov_phitheta;
-  delete m_track_cov_phiqOverP;
-  delete m_track_cov_tehtaqOverP;
-  delete m_truthvertex_tracks_idx;
-  
-  delete m_truthvertex_x;
-  delete m_truthvertex_y;
-  delete m_truthvertex_z;
-  delete m_truthvertex_t;
 }
 
 //For checking propper reading

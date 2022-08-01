@@ -25,7 +25,7 @@
 #include "Acts/Vertexing/Vertex.hpp"
 #include "Acts/Vertexing/VertexFinderConcept.hpp"
 #include "Acts/Vertexing/VertexingOptions.hpp"
-#include "Acts/Vertexing/ZScanVertexFinder.hpp"
+// #include "Acts/Vertexing/ZScanVertexFinder.hpp"
 #include "ActsExamples/EventData/ProtoVertex.hpp"
 #include "ActsExamples/EventData/Track.hpp"
 #include "ActsExamples/Framework/RandomNumbers.hpp"
@@ -35,6 +35,8 @@
 #include <chrono>
 
 #include "VertexingHelpers.hpp"
+
+#include "ttlindkvistACTS/CustomVertexSeeder.hpp"
 
 ttlindkvist::NTupleIterativeVertexFinderAlgorithm::NTupleIterativeVertexFinderAlgorithm(
     const Config& config, Acts::Logging::Level level)
@@ -64,7 +66,7 @@ ActsExamples::ProcessCode ttlindkvist::NTupleIterativeVertexFinderAlgorithm::exe
       Acts::FullBilloirVertexFitter<Acts::BoundTrackParameters, Linearizer>;
   using ImpactPointEstimator =
       Acts::ImpactPointEstimator<Acts::BoundTrackParameters, Propagator>;
-  using VertexSeeder = Acts::ZScanVertexFinder<VertexFitter>;
+  using VertexSeeder = ttlindkvist::CustomVertexSeeder<VertexFitter>;
   using VertexFinder = Acts::IterativeVertexFinder<VertexFitter, VertexSeeder>;
   using VertexFinderOptions =
       Acts::VertexingOptions<Acts::BoundTrackParameters>;

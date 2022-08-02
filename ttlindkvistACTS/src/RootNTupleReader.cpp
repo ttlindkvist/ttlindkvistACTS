@@ -24,6 +24,8 @@
 #include <boost/format.hpp>
 #include <fstream>
 
+#include "ttlindkvistACTS/goodRecoVtxTracks.hpp"
+
 /* TODO
 
 Load some data in - try to print it out
@@ -144,7 +146,8 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     ACTS_DEBUG("nRecoVtx = " << nRecoVtx);
     
     std::vector<Acts::BoundTrackParameters> trackContainer;
-    for(unsigned int i = 0; i<nTracks; i++){
+    // for(unsigned int i = 0; i<nTracks; i++){
+    for(const int& i : goodTrackIdxs[entry]){
       //Debugging check by printing read parameters to file - to compare later via external program
       using ParametersVector = Acts::BoundVector;
       Acts::BoundVector params;

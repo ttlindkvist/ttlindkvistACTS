@@ -56,28 +56,28 @@ ActsExamples::ProcessCode ttlindkvist::VertexingResolutionAlgorithm::execute(
             sumPt2 += pt*pt;
         }
         if(sumPt2 >= minSumPt2){
-            //Compute z vertexing resolution
-            for(const auto &t_vtx : inputTruthVtxs){
-                double truth_z = t_vtx[2];
-                
-                double deltaZ = truth_z - recoVtx.position()[2];
-                if(deltaZ*deltaZ < maxDeltaZ*maxDeltaZ){
-                    deltaZs.push_back(deltaZ);
-                }
-            }
+            filteredRecoVtxs.push_back(recoVtx);
         }
     }
     
     //Print output
     std::ofstream outputFile(boost::str(boost::format("%1%/event%2%_deltaz_minSumPt2_%3%.txt") % m_cfg.outputDir % ctx.eventNumber % minSumPt));
-    for(const auto& delz : deltaZs){
-        outputFile << delz << " ";
+    
+    //Compute z vertexing resolution
+    for(const auto &t_vtx : inputTruthVtxs){
+        double truth_z = t_vtx[2];
+        
+        for(const auto &recoVtx : filteredRecoVtxs){
+            double deltaZ = truth_z - recoVtx.position()[2];
+            if(deltaZ*deltaZ < maxDeltaZ*maxDeltaZ){
+                deltaZs.push_back(deltaZ);
+                outputFile << deltaZ << " ";
+            }
+        }
+        outputFile << std::endl;
     }
     outputFile.close();
     
-    
-    
     ctx.eventStore.add(m_cfg.output, std::move(deltaZs));
-    
     return ActsExamples::ProcessCode::SUCCESS;
 }

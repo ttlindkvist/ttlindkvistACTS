@@ -104,6 +104,8 @@ ActsExamples::ProcessCode ttlindkvist::TutorialVertexFinderAlgorithm::execute(
   Finder::Config finderConfig(std::move(fitter), seedFinder, ipEstimator, linearizer, m_cfg.bField);
   // We do not want to use a beamspot constraint here
   finderConfig.useBeamSpotConstraint = false;
+  finderConfig.useSeedConstraint = true;
+  finderConfig.maxIterations = 500;
   
   // Instantiate the finder
   Finder finder(finderConfig);

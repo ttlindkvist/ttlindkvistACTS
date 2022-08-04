@@ -32,8 +32,8 @@ namespace ttlindkvist {
 ///    the returned vertex position will be (x_constr, y_constr, z0_mode).
 template <typename vfitter_t>
 class CustomVertexSeeder {
-  static_assert(Acts::VertexFitterConcept<vfitter_t>,
-                "Vertex fitter does not fulfill vertex fitter concept.");
+  //static_assert(Acts::VertexFitterConcept<vfitter_t>,
+  //              "Vertex fitter does not fulfill vertex fitter concept.");
   using Propagator_t = typename vfitter_t::Propagator_t;
 
  public:

@@ -5,6 +5,7 @@ add_library(
   src/NTupleIterativeVertexFinderAlgorithm.cpp
   src/NTupleReaderOptions.cpp
   src/NTuplePrinting.cpp
+  src/NTupleAMVFAlgo.cpp
   src/AMVFvsIVFPrinter.cpp
   src/RootNTupleReader.cpp
   src/VertexingResolutionAlgorithm.cpp

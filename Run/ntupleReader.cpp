@@ -17,7 +17,7 @@
 #include "ttlindkvistACTS/RootNTupleReader.hpp"
 #include "ttlindkvistACTS/NTuplePrinting.hpp"
 
-#include "ttlindkvistACTS/ModifiedAMVFAlgorithm.hpp"
+#include "ttlindkvistACTS/NTupleAMVFAlgo.hpp"
 #include "ttlindkvistACTS/NTupleIterativeVertexFinderAlgorithm.hpp"
 
 #include "ttlindkvistACTS/VertexingResolutionAlgorithm.hpp"
@@ -80,16 +80,16 @@ int main(int argc, char* argv[]) {
   sequencer.addReader(std::make_shared<ttlindkvist::RootNTupleReader>(ntupleReaderConf, logLevel));
  
   
-  // ############################################
-  // #### Commented out because it runs slow ####
-  // ############################################
-  ttlindkvist::TutorialVertexFinderAlgorithm::Config findVerticesAMVF;
+  // #############################
+  // #### NOTE this runs slow ####
+  // #############################
+  ttlindkvist::NTupleAMVFAlgo::Config findVerticesAMVF;
   findVerticesAMVF.bField = magneticField;
   findVerticesAMVF.inputTrackParameters = "nTupleTrackParameters";
   findVerticesAMVF.outputProtoVertices = "protovertices";
   findVerticesAMVF.outputVertices = "AMVF_vertices";
   sequencer.addAlgorithm(
-      std::make_shared<ttlindkvist::TutorialVertexFinderAlgorithm>(findVerticesAMVF, logLevel));
+      std::make_shared<ttlindkvist::NTupleAMVFAlgo>(findVerticesAMVF, logLevel));
   
   // Find vertices using iterative method
   ttlindkvist::NTupleIterativeVertexFinderAlgorithm::Config findVerticesIterative;

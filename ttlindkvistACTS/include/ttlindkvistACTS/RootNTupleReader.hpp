@@ -74,6 +74,14 @@ class RootNTupleReader : public ActsExamples::IReader {
     std::vector<float> *m_recovertex_z;
 
     std::vector<std::vector<int>> *m_truthvertex_tracks_idx;
+    
+    float m_beamspot_x = 0;
+    float m_beamspot_y = 0;
+    float m_beamspot_z = 0;
+    float m_beamspot_sigX = 0;
+    float m_beamspot_sigY = 0;
+    float m_beamspot_sigZ = 0;
+    
     BranchPointerWrapper(){
         m_track_d0      = new std::vector<float>;
         m_track_z0      = new std::vector<float>;

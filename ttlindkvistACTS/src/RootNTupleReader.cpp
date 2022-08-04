@@ -89,7 +89,14 @@ ttlindkvist::RootNTupleReader::RootNTupleReader(
   m_inputChain->SetBranchAddress("recovertex_y", &m_branches.m_recovertex_y); 
   m_inputChain->SetBranchAddress("recovertex_z", &m_branches.m_recovertex_z); 
   // m_inputChain->SetBranchAddress("truthvertex_tracks_idx",   &m_truthvertex_tracks_idx);
-
+  
+  m_inputChain->SetBranchAddress("beamspot_x", &m_branches.m_beamspot_x); 
+  m_inputChain->SetBranchAddress("beamspot_y", &m_branches.m_beamspot_y); 
+  m_inputChain->SetBranchAddress("beamspot_z", &m_branches.m_beamspot_z); 
+  m_inputChain->SetBranchAddress("beamspot_sigX", &m_branches.m_beamspot_sigX); 
+  m_inputChain->SetBranchAddress("beamspot_sigY", &m_branches.m_beamspot_sigY); 
+  m_inputChain->SetBranchAddress("beamspot_sigZ", &m_branches.m_beamspot_sigZ); 
+  
   auto path = m_cfg.filePath;
 
   // add file to the input chain
@@ -136,7 +143,6 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     ACTS_INFO("Reading event: " << context.eventNumber
                                 << " stored as entry: " << entry);
 
-    
     unsigned int nTracks    = m_branches.m_track_d0->size();
     unsigned int nTruthVtx  = m_branches.m_truthvertex_z->size();
     unsigned int nRecoVtx  = m_branches.m_recovertex_z->size();
@@ -146,8 +152,8 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
     ACTS_DEBUG("nRecoVtx = " << nRecoVtx);
     
     std::vector<Acts::BoundTrackParameters> trackContainer;
-    // for(unsigned int i = 0; i<nTracks; i++){
-    for(const int& i : goodTrackIdxs[entry]){
+    for(unsigned int i = 0; i<nTracks; i++){
+    // for(const int& i : goodTrackIdxs[entry]){
       //Debugging check by printing read parameters to file - to compare later via external program
       using ParametersVector = Acts::BoundVector;
       Acts::BoundVector params;
@@ -225,6 +231,21 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
                         0 );
       recoVertexContainer.push_back(vtx);
     }
+    
+    //TODO: translate from cartesian to curvilinear coordinates
+    // Acts::Vertex<Acts::BoundTrackParameters> beamSpot;
+    // Acts::BoundSymMatrix beamSpotCov;
+    // Acts::Vector4 beamSpotPos;
+    // for(int x = 0; x<Acts::BoundIndices::eBoundSize; x++){
+    //   for(int y = 0; y<Acts::BoundIndices::eBoundSize; y++){
+    //     beamSpotCov(x, y) = 0;
+    //   }
+    // }
+    
+    // beamSpot.setFullCovariance(cov);
+    // beamSpot.setFullPosition(beamSpotPos);
+    // context.eventStore.add("beamSpotParameters", std::move(beamSpot));
+    
     
     context.eventStore.add(m_cfg.nTupleTrackParameters, std::move(trackContainer));
     context.eventStore.add(m_cfg.nTupleTruthVtxParameters, std::move(truthVertexContainer));

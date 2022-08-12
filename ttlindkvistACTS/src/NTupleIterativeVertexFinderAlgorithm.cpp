@@ -94,10 +94,14 @@ ActsExamples::ProcessCode ttlindkvist::NTupleIterativeVertexFinderAlgorithm::exe
                                  std::move(seeder), ipEst);
   finderCfg.maxVertices = 200;
   finderCfg.reassignTracksAfterFirstFit = true;
+  finderCfg.useBeamConstraint = true;
   
   VertexFinder finder(finderCfg);
   VertexFinder::State state(*m_cfg.bField, ctx.magFieldContext);
-  VertexFinderOptions finderOpts(ctx.geoContext, ctx.magFieldContext);
+  const auto& beamspotConstraint =
+      ctx.eventStore.get<Acts::Vertex<Acts::BoundTrackParameters>>("beamspotConstraint");
+  
+  VertexFinderOptions finderOpts(ctx.geoContext, ctx.magFieldContext, beamspotConstraint);
 
   // find vertices and measure elapsed time
   auto t1 = std::chrono::high_resolution_clock::now();

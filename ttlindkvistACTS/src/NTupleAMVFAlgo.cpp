@@ -94,32 +94,34 @@ ActsExamples::ProcessCode ttlindkvist::NTupleAMVFAlgo::execute(
   Fitter fitter(fitterCfg);
     
   // Set up the vertex seed finder
-  using SeedFinder = Acts::TrackDensityVertexFinder<Fitter, Acts::GaussianTrackDensity<Acts::BoundTrackParameters>>;
-  SeedFinder seedFinder;
+  // using SeedFinder = Acts::TrackDensityVertexFinder<Fitter, Acts::GaussianTrackDensity<Acts::BoundTrackParameters>>;
+  // SeedFinder seedFinder;
   
-  // using SeedFinder = ttlindkvist::CustomVertexSeeder<Fitter>;
-  // SeedFinder::Config seederCfg(ipEstimator);
-  // SeedFinder seedFinder(std::move(seederCfg));
-  
-  
+  using SeedFinder = ttlindkvist::CustomVertexSeeder<Fitter>;
+  SeedFinder::Config seederCfg(ipEstimator);
+  SeedFinder seedFinder(std::move(seederCfg));
+    
   // The vertex finder type
   using Finder = Acts::AdaptiveMultiVertexFinder<Fitter, SeedFinder>;
-  // using Finder = Acts::IterativeVertexFinder<Fitter, SeedFinder>;
+
   
-  Finder::Config finderConfig(std::move(fitter), seedFinder, ipEstimator, linearizer, m_cfg.bField);
-  // We do not want to use a beamspot constraint here
-  finderConfig.useBeamSpotConstraint = false;
-  finderConfig.useSeedConstraint = true;
-  finderConfig.maxIterations = 100;
+  Finder::Config finderConfig(std::move(fitter), std::move(seedFinder), ipEstimator, linearizer, m_cfg.bField);
+  finderConfig.useSeedConstraint = false;
+  finderConfig.maxIterations = 200;
+  finderConfig.useBeamSpotConstraint = true;
   
   // Instantiate the finder
   Finder finder(finderConfig);
   // The vertex finder state
   Finder::State state;
   
+  const auto& beamspotConstraint =
+      ctx.eventStore.get<Acts::Vertex<Acts::BoundTrackParameters>>("beamspotConstraint");
+  
   // Default vertexing options, this is where e.g. a constraint could be set
   using VertexingOptions = Acts::VertexingOptions<Acts::BoundTrackParameters>;
-  VertexingOptions finderOpts(ctx.geoContext, ctx.magFieldContext);
+  VertexingOptions finderOpts(ctx.geoContext, ctx.magFieldContext,
+                              beamspotConstraint);
   
   // Find vertices
   auto res = finder.find(inputTrackPointers, finderOpts, state);

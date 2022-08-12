@@ -9,7 +9,9 @@
 #include "ttlindkvistACTS/RootNTupleReader.hpp"
 
 #include "Acts/EventData/TrackParameters.hpp"
+#include "Acts/Vertexing/Vertex.hpp"
 #include "Acts/Surfaces/PerigeeSurface.hpp"
+
 #include "ActsExamples/EventData/SimParticle.hpp"
 #include "ActsExamples/Framework/WhiteBoard.hpp"
 #include "ActsExamples/Utilities/Paths.hpp"
@@ -232,19 +234,33 @@ ActsExamples::ProcessCode ttlindkvist::RootNTupleReader::read(
       recoVertexContainer.push_back(vtx);
     }
     
-    //TODO: translate from cartesian to curvilinear coordinates
-    // Acts::Vertex<Acts::BoundTrackParameters> beamSpot;
-    // Acts::BoundSymMatrix beamSpotCov;
-    // Acts::Vector4 beamSpotPos;
-    // for(int x = 0; x<Acts::BoundIndices::eBoundSize; x++){
-    //   for(int y = 0; y<Acts::BoundIndices::eBoundSize; y++){
-    //     beamSpotCov(x, y) = 0;
-    //   }
-    // }
+    Acts::Vertex<Acts::BoundTrackParameters> beamspotConstraint;
+    // Acts::Vector3 beamspotPos;
+    // Acts::SymMatrix3 beamspotCov;
+
+    // beamspotPos << m_branches.m_beamspot_x, m_branches.m_beamspot_y,
+    //     m_branches.m_beamspot_z;
+    // beamspotCov << m_branches.m_beamspot_sigX*m_branches.m_beamspot_sigX, 0, 0, 
+    //         0, m_branches.m_beamspot_sigY*m_branches.m_beamspot_sigY, 0, 
+    //         0, 0, m_branches.m_beamspot_sigZ*m_branches.m_beamspot_sigZ;
+            
+    // beamspotConstraint.setPosition(beamspotPos);
+    // beamspotConstraint.setCovariance(beamspotCov);
     
-    // beamSpot.setFullCovariance(cov);
-    // beamSpot.setFullPosition(beamSpotPos);
-    // context.eventStore.add("beamSpotParameters", std::move(beamSpot));
+    
+    Acts::Vector4 beamspotFullPos;
+    Acts::SymMatrix4 beamspotFullCov;
+
+    beamspotFullPos << m_branches.m_beamspot_x, m_branches.m_beamspot_y,
+        m_branches.m_beamspot_z, 0;
+    beamspotFullCov << m_branches.m_beamspot_sigX*m_branches.m_beamspot_sigX, 0, 0, 0,
+                       0, m_branches.m_beamspot_sigY*m_branches.m_beamspot_sigY, 0, 0,
+                       0, 0, m_branches.m_beamspot_sigZ*m_branches.m_beamspot_sigZ, 0,
+                       0, 0, 0, 0.18*0.18;    
+    
+    beamspotConstraint.setFullPosition(beamspotFullPos);
+    beamspotConstraint.setFullCovariance(beamspotFullCov);
+    context.eventStore.add("beamspotConstraint", std::move(beamspotConstraint));
     
     
     context.eventStore.add(m_cfg.nTupleTrackParameters, std::move(trackContainer));
